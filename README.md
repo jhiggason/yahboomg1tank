@@ -75,9 +75,9 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<p align="center>
-<img src="https://hackster.imgix.net/uploads/attachments/1418126/_y4NHHNkT2t.blob?auto=compress%2Cformat&w=900&h=675&fit=min" width="500" height="375" />
-</p>
+
+<img src="https://hackster.imgix.net/uploads/attachments/1418126/_y4NHHNkT2t.blob?auto=compress%2Cformat&w=900&h=675&fit=min" align="center" width="500" height="375"/> 
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
