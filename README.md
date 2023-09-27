@@ -188,7 +188,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jhiggason/Ya
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Your Name - Jeff Higgason - jeffh@opensar.net
 
 Project Link: [https://github.com/jhiggason/YahBoomG1Tank](https://github.com/jhiggason/YahBoomG1Tank)
 
