@@ -1,4 +1,4 @@
-# YAHBOOM G1 Tank ROS2 Node
+# YAHBOOM G1 Tank ROS2
 
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
