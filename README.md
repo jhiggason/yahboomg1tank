@@ -24,7 +24,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/jhiggason/YahBoomG1Tank">
-    <img src="https://avatars.githubusercontent.com/u/3979232?s=280&v=4" alt="Logo" width="80" height="80">
+    <img src="img/tank.png" alt="Logo" width="200" height="200">
   </a>
 
 <h3 align="center">YAHBOOM G1 Tank ROS2</h3>
