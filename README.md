@@ -83,12 +83,7 @@
 ### Built With
 
 * [![Python3][Python.org]][Python-url]
-* [![React][React.js]][React-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![ROS2][ROS.org]][ROS-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -235,3 +230,5 @@ Project Link: [https://github.com/jhiggason/YahBoomG1Tank](https://github.com/jh
 [JQuery-url]: https://jquery.com 
 [Python.org]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org/
+[ROS.org]: https://img.shields.io/ros/v/humble/vision_msgs
+[ROS-url]: https://docs.ros.org/en/humble/index.html
