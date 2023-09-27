@@ -82,7 +82,7 @@
 
 ### Built With
 
-* [Python3][Python.org][Python-url]
+* [![Python3][Python.org]][Python-url]
 * [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url]
 * [![Angular][Angular.io]][Angular-url]
