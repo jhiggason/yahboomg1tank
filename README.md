@@ -78,15 +78,11 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `jhiggason`, `YahBoomG1Tank`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `YAHBOOM G1 Tank ROS2`, `project_description`
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
+* [Python3][Python.org][Python-url]
 * [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url]
 * [![Angular][Angular.io]][Angular-url]
@@ -238,3 +234,5 @@ Project Link: [https://github.com/jhiggason/YahBoomG1Tank](https://github.com/jh
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
+[Python-url]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[Python.org]: https://www.python.org/
