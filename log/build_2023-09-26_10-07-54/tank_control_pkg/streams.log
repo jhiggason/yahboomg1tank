@@ -1,0 +1,36 @@
+[0.414s] Invoking command in '/home/jeffh/ros2_ws/src/tank_control_pkg': PYTHONPATH=/home/jeffh/ros2_ws/build/tank_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/tank_control_pkg build --build-base /home/jeffh/ros2_ws/build/tank_control_pkg/build install --record /home/jeffh/ros2_ws/build/tank_control_pkg/install.log --single-version-externally-managed
+[0.564s] running egg_info
+[0.564s] creating ../../build/tank_control_pkg/tank_control_pkg.egg-info
+[0.564s] writing ../../build/tank_control_pkg/tank_control_pkg.egg-info/PKG-INFO
+[0.564s] writing dependency_links to ../../build/tank_control_pkg/tank_control_pkg.egg-info/dependency_links.txt
+[0.564s] writing entry points to ../../build/tank_control_pkg/tank_control_pkg.egg-info/entry_points.txt
+[0.564s] writing requirements to ../../build/tank_control_pkg/tank_control_pkg.egg-info/requires.txt
+[0.564s] writing top-level names to ../../build/tank_control_pkg/tank_control_pkg.egg-info/top_level.txt
+[0.564s] writing manifest file '../../build/tank_control_pkg/tank_control_pkg.egg-info/SOURCES.txt'
+[0.565s] reading manifest file '../../build/tank_control_pkg/tank_control_pkg.egg-info/SOURCES.txt'
+[0.566s] writing manifest file '../../build/tank_control_pkg/tank_control_pkg.egg-info/SOURCES.txt'
+[0.566s] running build
+[0.566s] running build_py
+[0.566s] creating /home/jeffh/ros2_ws/build/tank_control_pkg/build
+[0.566s] creating /home/jeffh/ros2_ws/build/tank_control_pkg/build/lib
+[0.566s] creating /home/jeffh/ros2_ws/build/tank_control_pkg/build/lib/tank_control_pkg
+[0.566s] copying tank_control_pkg/tank_control.py -> /home/jeffh/ros2_ws/build/tank_control_pkg/build/lib/tank_control_pkg
+[0.566s] copying tank_control_pkg/__init__.py -> /home/jeffh/ros2_ws/build/tank_control_pkg/build/lib/tank_control_pkg
+[0.566s] running install
+[0.567s] running install_lib
+[0.567s] creating /home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg
+[0.567s] copying /home/jeffh/ros2_ws/build/tank_control_pkg/build/lib/tank_control_pkg/tank_control.py -> /home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg
+[0.567s] copying /home/jeffh/ros2_ws/build/tank_control_pkg/build/lib/tank_control_pkg/__init__.py -> /home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg
+[0.567s] byte-compiling /home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg/tank_control.py to tank_control.cpython-310.pyc
+[0.568s] byte-compiling /home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg/__init__.py to __init__.cpython-310.pyc
+[0.568s] running install_data
+[0.568s] creating /home/jeffh/ros2_ws/install/tank_control_pkg/share/ament_index
+[0.568s] creating /home/jeffh/ros2_ws/install/tank_control_pkg/share/ament_index/resource_index
+[0.568s] creating /home/jeffh/ros2_ws/install/tank_control_pkg/share/ament_index/resource_index/packages
+[0.568s] copying resource/tank_control_pkg -> /home/jeffh/ros2_ws/install/tank_control_pkg/share/ament_index/resource_index/packages
+[0.568s] copying package.xml -> /home/jeffh/ros2_ws/install/tank_control_pkg/share/tank_control_pkg
+[0.568s] running install_egg_info
+[0.569s] Copying ../../build/tank_control_pkg/tank_control_pkg.egg-info to /home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg-0.0.0-py3.10.egg-info
+[0.570s] running install_scripts
+[0.582s] writing list of installed files to '/home/jeffh/ros2_ws/build/tank_control_pkg/install.log'
+[0.602s] Invoked command in '/home/jeffh/ros2_ws/src/tank_control_pkg' returned '0': PYTHONPATH=/home/jeffh/ros2_ws/build/tank_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/tank_control_pkg build --build-base /home/jeffh/ros2_ws/build/tank_control_pkg/build install --record /home/jeffh/ros2_ws/build/tank_control_pkg/install.log --single-version-externally-managed
