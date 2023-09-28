@@ -115,3 +115,6 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
+
+# If you get an error "RuntimeError: No access to /dev/mem"  then run the following on your Raspberry Pi:sudo chmod 777 /dev/mem and sudo chmod 777/dev/gpiomem and then reboot the Raspberry Pi.  
+# It appears that when you use the rpgpio library on an ubuntu os vs raspbian- the permissions are not set correctly.  This is a workaround to fix the permissions. 
