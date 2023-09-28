@@ -1,5 +1,0 @@
-  File "/home/jeffh/ros2_ws/install/my_py_pkg/lib/python3.10/site-packages/my_py_pkg/my_first_node.py", line 15
-    self.get_logger().info("Hello " str(self.counter_))
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-SyntaxError: invalid syntax. Perhaps you forgot a comma?
-
