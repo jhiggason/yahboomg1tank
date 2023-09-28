@@ -12,7 +12,6 @@ class TankControl(Node):
         self.left_motor_pins = [20, 21, 16]  # Forward, Reverse, PWM
         self.right_motor_pins = [19, 26, 13]  # Forward, Reverse, PWM
 
-        # Set up the GPIO pins
         try:
             GPIO.setmode(GPIO.BCM)
             
@@ -43,32 +42,29 @@ class TankControl(Node):
     def listener_callback(self, msg):
         linear_x = msg.linear.x
         linear_y = msg.linear.y
-        angular = msg.angular.z
+        angular_z = msg.angular.z
 
-        # Check for a valid linear.y value
-        if linear_y != 0:
-            self.get_logger().warn('Nonzero linear.y received. Tank drive robots can\'t move directly in the y-direction.')
-
-        # You might want to further refine the control logic
-        # based on your hardware and requirements.
-        # For now, this is a basic approach.
-        if linear_x > 0:
-            self.drive(self.left_motor_pins, True, False, 100)
-            self.drive(self.right_motor_pins, True, False, 100)
-        elif linear_x < 0:
-            self.drive(self.left_motor_pins, False, True, 100)
-            self.drive(self.right_motor_pins, False, True, 100)
-        elif angular > 0:
-            self.drive(self.left_motor_pins, False, True, 100)
-            self.drive(self.right_motor_pins, True, False, 100)
-        elif angular < 0:
-            self.drive(self.left_motor_pins, True, False, 100)
-            self.drive(self.right_motor_pins, False, True, 100)
+        # Assuming linear_x drives forward/backward and linear_y performs strafe (left/right)
+        # For tank bot, strafe might not be possible, but let's take it into account anyway
+        if linear_x > 0:  # Drive forward
+            self.drive(self.left_motor_pins, True, False, abs(linear_x))
+            self.drive(self.right_motor_pins, True, False, abs(linear_x))
+        elif linear_x < 0:  # Drive backward
+            self.drive(self.left_motor_pins, False, True, abs(linear_x))
+            self.drive(self.right_motor_pins, False, True, abs(linear_x))
+        elif angular_z > 0:  # Turn left
+            self.drive(self.left_motor_pins, False, True, abs(angular_z))
+            self.drive(self.right_motor_pins, True, False, abs(angular_z))
+        elif angular_z < 0:  # Turn right
+            self.drive(self.left_motor_pins, True, False, abs(angular_z))
+            self.drive(self.right_motor_pins, False, True, abs(angular_z))
         else:
             self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
         try:
+            speed = min(max(speed, 0), 100)  # Ensure speed is within 0-100 range
+
             GPIO.output(motor_pins[0], forward)
             GPIO.output(motor_pins[1], reverse)
 
