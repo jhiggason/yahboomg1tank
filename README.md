@@ -119,7 +119,6 @@ For more information on installing Colcon, please refer to the official [Colcon 
   sudo apt install python3-rpi.gpio
   ```
 
-GitHub Copilot: Your README file looks good to me. As for expanding the setup section to include URLs and setup guides, I suggest adding links to the official installation guides for Ubuntu 22 for Raspberry Pi, ROS2 Humble-desktop, and Colcon. Here's an example of how you can modify the installation section:
 
 ### Installation and Setup
 
