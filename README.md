@@ -95,9 +95,6 @@ Beyond just a learning exercise in ROS2, our aspiration is to contribute somethi
 
 
 <!-- GETTING STARTED -->
-Certainly! Below is a "Getting Started" section for your GitHub page, formatted in markdown:
-
-```markdown
 ## Getting Started
 
 This guide will help you set up the ROS2 Python node for the YAHBOOM G1 Tank with Raspberry Pi 4.
