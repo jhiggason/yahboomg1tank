@@ -64,7 +64,7 @@ This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 
 
 #### Software:
 - **Ubuntu 22 for Raspberry Pi**: Installed and set up on your Raspberry Pi 4.[Ubuntu installation guide](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview).
-- **ROS2 Humble-desktop**: Installed following the official [ROS2 installation guide](https://index.ros.org/doc/ros2/Installation/Humble/).
+- **ROS2 Humble-desktop**: Installed and sourced following the official [ROS2 installation guide](https://index.ros.org/doc/ros2/Installation/Humble/).
 - **Colcon**: Required for building and testing ROS packages. Install with:
   ```bash
   sudo apt install python3-colcon-common-extensions
