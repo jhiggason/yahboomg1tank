@@ -97,13 +97,13 @@ Beyond just a learning exercise in ROS2, our aspiration is to contribute somethi
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This guide will help you set up the ROS2 Python node for the YAHBOOM G1 Tank with Raspberry Pi 4.
+This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 Tank with Raspberry Pi 4.
 
 ### Prerequisites
 
 #### Hardware:
 - **YAHBOOM G1 Tank**: Ensure it's fully assembled and tested for basic operations.
-- **Raspberry Pi 4**: Should be attached and properly interfaced with the G1 Tank.
+- **Raspberry Pi 4**: Properly interfaced with the G1 Tank.
 
 #### Software:
 - **Ubuntu 22 for Raspberry Pi**: Installed and set up on your Raspberry Pi 4.
@@ -119,50 +119,48 @@ This guide will help you set up the ROS2 Python node for the YAHBOOM G1 Tank wit
 
 ### Installation and Setup
 
-1. **Clone the Repository**:
-   On your Raspberry Pi 4, navigate to a directory where you wish to download the project, and run:
+1. **Setting Permissions**:
+   If you encounter a "RuntimeError: No access to /dev/mem", adjust permissions for GPIO access on your Raspberry Pi:
    ```bash
-   git clone [YOUR_GITHUB_REPO_URL_HERE]
-   cd [YOUR_REPO_NAME]
+   sudo chmod 777 /dev/mem
+   sudo chmod 777 /dev/gpiomem
+   ```
+   After adjusting, reboot your Raspberry Pi.
+
+2. **Clone the Repository**:
+   Navigate to your home directory, then run:
+   ```bash
+   mkdir ~/ros2_ws/
+   cd ~/ros2_ws
+   git clone https://github.com/jhiggason/yahboomg1tank.git .
    ```
 
-2. **Build the ROS2 Package**:
-   Using `colcon`, compile the project:
+3. **Build the ROS2 Package**:
+   Compile the project using `colcon`:
    ```bash
    colcon build
    ```
 
-3. **Source the Workspace**:
-   After building, make sure to source the workspace:
+4. **Source the Workspace**:
+   After building, source the workspace:
    ```bash
-   source install/setup.bash
+   source ~/ros2_ws/install/setup.bash
    ```
 
-4. **Running the Node**:
-   With everything set up, run your ROS2 node with:
+5. **Running the Node**:
+   To activate and run your ROS2 node, execute:
    ```bash
-   ros2 run [YOUR_PACKAGE_NAME] [YOUR_NODE_NAME]
+   ros2 run tank_control_pkg tank_control
    ```
 
 ### First Use:
-After successfully setting up and running the node, you should see the YAHBOOM G1 Tank responding to the twist messages provided by the `turtlesim` teleop or any other control method you've implemented.
-
-Remember, this is just a foundation, and you can expand upon the controls and features as you dive deeper into the project.
+Upon successfully setting up and running the node, the YAHBOOM G1 Tank should now respond to the twist messages provided by the `turtlesim` teleop or any other control method you've implemented.
 
 ---
 
-Feel free to raise any issues on this GitHub repository or contribute to its improvements!
-
-```
-
-Replace `[YOUR_GITHUB_REPO_URL_HERE]`, `[YOUR_REPO_NAME]`, `[YOUR_PACKAGE_NAME]`, and `[YOUR_NODE_NAME]` with appropriate values for your project.
-
-If you provide the Python code or further specifics, I can offer more tailored instructions. However, the above should be a good starting point based on the information given.
-   ```
+For any issues or to contribute, engage with this GitHub repository.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
