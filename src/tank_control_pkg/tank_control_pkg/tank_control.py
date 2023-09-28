@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from geometry_msgs.msg import Twist
 import RPi.GPIO as GPIO
 
 class TankControl(Node):
@@ -14,8 +14,10 @@ class TankControl(Node):
 
         try:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(self.left_motor_pins, GPIO.OUT)
-            GPIO.setup(self.right_motor_pins, GPIO.OUT)
+            
+            # Set up individual pins
+            for pin in self.left_motor_pins + self.right_motor_pins:
+                GPIO.setup(pin, GPIO.OUT)
 
             # Set up the PWM for the left and right motors
             self.left_pwm = GPIO.PWM(self.left_motor_pins[2], 2000)  # 2000Hz frequency
@@ -29,49 +31,51 @@ class TankControl(Node):
             self.get_logger().error('Error setting up GPIO pins: %s' % str(e))
             raise
 
-        # Subscribe to the /turtle1/cmd_vel topic
+        # Subscribe to the /turtle1/cmd_vel topic with correct message type
         self.subscription = self.create_subscription(
-            String,
+            Twist,
             '/turtle1/cmd_vel',
             self.listener_callback,
             10
         )
 
     def listener_callback(self, msg):
-        # Access the linear and angular velocity from the message data
         linear = msg.linear.x
         angular = msg.angular.z
 
-        # Control the motors based on the linear and angular velocity
-        if linear > 0:  # move forward
-            self.drive(self.left_motor_pins, True, False, 100)  # 100% duty cycle for full speed
+        # You might want to further refine the control logic
+        # based on your hardware and requirements.
+        # For now, this is a basic approach.
+        if linear > 0:
+            self.drive(self.left_motor_pins, True, False, 100)
             self.drive(self.right_motor_pins, True, False, 100)
-        elif linear < 0:  # move backward
+        elif linear < 0:
             self.drive(self.left_motor_pins, False, True, 100)
             self.drive(self.right_motor_pins, False, True, 100)
-        elif angular > 0:  # turn/spin left
+        elif angular > 0:
             self.drive(self.left_motor_pins, False, True, 100)
             self.drive(self.right_motor_pins, True, False, 100)
-        elif angular < 0:  # turn/spin right
+        elif angular < 0:
             self.drive(self.left_motor_pins, True, False, 100)
             self.drive(self.right_motor_pins, False, True, 100)
         else:
             self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
-        # Set the motor pins and PWM duty cycle
         try:
             GPIO.output(motor_pins[0], forward)
             GPIO.output(motor_pins[1], reverse)
-            pwm = motor_pins[2]
-            pwm.ChangeDutyCycle(speed)
+
+            if motor_pins == self.left_motor_pins:
+                self.left_pwm.ChangeDutyCycle(speed)
+            else:
+                self.right_pwm.ChangeDutyCycle(speed)
 
         except Exception as e:
             self.get_logger().error('Error setting motor pins: %s' % str(e))
             raise
 
     def stop_motors(self):
-        # Stop the motors and clean up the GPIO pins
         try:
             GPIO.output(self.left_motor_pins[0], False)
             GPIO.output(self.left_motor_pins[1], False)
@@ -85,7 +89,6 @@ class TankControl(Node):
             raise
 
     def on_shutdown(self):
-        # Stop the motors and clean up the GPIO pins when the node is shut down
         try:
             self.stop_motors()
             GPIO.cleanup()
@@ -95,22 +98,13 @@ class TankControl(Node):
             raise
 
 def main(args=None):
-    # Initialize the ROS2 node
     try:
         rclpy.init(args=args)
-
-        # Create an instance of the TankControl class
         node = TankControl()
-
-        # Spin the node until it is shut down
         try:
             rclpy.spin(node)
-
         finally:
-            # Stop the motors and clean up the GPIO pins when the node is shut down
             node.on_shutdown()
-
-            # Destroy the node and shut down ROS2
             node.destroy_node()
             rclpy.shutdown()
 
