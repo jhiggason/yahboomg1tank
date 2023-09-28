@@ -117,6 +117,8 @@ This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 
   sudo apt install python3-rpi.gpio
   ```
 
+GitHub Copilot: Your README file looks good to me. As for expanding the setup section to include URLs and setup guides, I suggest adding links to the official installation guides for Ubuntu 22 for Raspberry Pi, ROS2 Humble-desktop, and Colcon. Here's an example of how you can modify the installation section:
+
 ### Installation and Setup
 
 1. **Setting Permissions**:
@@ -152,6 +154,12 @@ This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 
    ```bash
    ros2 run tank_control_pkg tank_control
    ```
+
+For more information on installing Ubuntu 22 for Raspberry Pi, please refer to the official [Ubuntu installation guide](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview).
+
+For more information on installing ROS2 Humble-desktop, please refer to the official [ROS2 installation guide](https://index.ros.org/doc/ros2/Installation/Humble/).
+
+For more information on installing Colcon, please refer to the official [Colcon installation guide](https://colcon.readthedocs.io/en/released/user/installation.html).
 
 ### First Use:
 Upon successfully setting up and running the node, the YAHBOOM G1 Tank should now respond to the twist messages provided by the `turtlesim` teleop or any other control method you've implemented.
