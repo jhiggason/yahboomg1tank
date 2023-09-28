@@ -30,14 +30,11 @@
 <h3 align="center">YAHBOOM G1 Tank ROS2</h3>
 
   <p align="center">
-## Project Description
-
 This project aims to develop a functional ROS2 node using Python, designed for the **YAHBOOM G1 Tank** with **Raspberry Pi 4** as its foundation. 
 
-Initially, our approach involves leveraging the teleop executable from `turtlesim` to supply the twist messages. Subsequent phases will explore alternative control methodologies.
+In the initial stages, we'll be utilizing the teleop executable from `turtlesim` as a pre-setup input device to supply the twist messages. These twist messages, essentially, dictate the movement commands (linear and angular velocities) for the robot. This mechanism provides a foundational control method. As the project progresses, we'll explore more advanced and perhaps autonomous control methodologies.
 
 Beyond just a learning exercise in ROS2, our aspiration is to contribute something valuable to the broader community. This endeavor also encompasses vehicles employing the "Yahboom 4WD expansion board for robot car, SKU: 6000300085".
- 
     <br />
     <a href="https://github.com/jhiggason/YahBoomG1Tank"><strong>Explore the docs »</strong></a>
     <br />
