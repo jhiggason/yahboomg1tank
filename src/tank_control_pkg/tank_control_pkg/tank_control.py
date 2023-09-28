@@ -13,9 +13,6 @@ class TankControl(Node):
         self.right_motor_pins = [19, 26, 13]  # Forward, Reverse, PWM
 
         try:
-            # Initialize the GPIO library
-            GPIO.initialize()
-
             # Set up the left and right motor pins as outputs
             for pin in self.left_motor_pins + self.right_motor_pins:
                 GPIO.set_mode(pin, GPIO.OUTPUT)
