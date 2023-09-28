@@ -11,11 +11,6 @@ class TankControl(Node):
         # Set up the GPIO pins for the left and right motors
         self.left_motor_pins = [20, 21, 16]  # Forward, Reverse, PWM
         self.right_motor_pins = [19, 26, 13]  # Forward, Reverse, PWM
-        
-        # Set up the velocity variables
-        self.lin_vel_x_ = 0.0
-        self.lin_vel_y_ = 0.0
-        self.ang_vel_ = 0.0
 
         # Set up the GPIO pins
         try:
