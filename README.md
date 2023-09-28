@@ -7,7 +7,7 @@
 ![MIT License][license-shield]
 ![LinkedIn][linkedin-shield]
 
-
+<div align="center">
     <a href="https://github.com/jhiggason/YahBoomG1Tank">
         <img src="img/tank.png" alt="Logo" width="670" height="268">
     </a>
