@@ -160,6 +160,14 @@ For more information on installing Colcon, please refer to the official [Colcon 
 ### First Use:
 Upon successfully setting up and running the node, the YAHBOOM G1 Tank should now respond to the twist messages provided by the `turtlesim` teleop or any other control method you've implemented.
 
+**Running the Turtlesim Node**
+   To activate and run your turtlesim node, execute:
+   ```bash
+   ros2 run turtlesim turtle_teleop_keys
+   ```
+
+Use your arrow keys to move the tank around. **Note** Right now the arrow keys move the tank, but nothing stops the tank.  To be improved in future versions. 
+
 ---
 
 For any issues or to contribute, engage with this GitHub repository.
@@ -183,9 +191,8 @@ _For more examples, please refer to the [Documentation](https://github.com/jhigg
 ## Roadmap
 
 - [X] Working ROS2 that talks on the correct raspberry pi pins
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Improve movement commands to allow for better control of tank
+- [ ] Use xbox controller to move the tank
 
 See the [open issues](https://github.com/jhiggason/YahBoomG1Tank/issues) for a full list of proposed features (and known issues).
 
