@@ -34,7 +34,7 @@ This project aims to develop a functional ROS2 node using Python, designed for t
 
 In the initial stages, we'll be utilizing the teleop executable from `turtlesim` as a pre-setup input device to supply the twist messages. These twist messages, essentially, dictate the movement commands (linear and angular velocities) for the robot. This mechanism provides a foundational control method. As the project progresses, we'll explore more advanced and perhaps autonomous control methodologies.
 
-Beyond just a learning exercise in ROS2, our aspiration is to contribute something valuable to the broader community. This endeavor also encompasses vehicles employing the "Yahboom 4WD expansion board for robot car, SKU: 6000300085".
+Beyond just a learning exercise in ROS2, our aspiration is to contribute something valuable to the broader community. This endeavor also encompasses vehicles employing the "Yahboom 4WD expansion board for robot car, SKU: 6000300085" and related vehicles. 
     <br />
     <a href="https://github.com/jhiggason/YahBoomG1Tank#getting-started"><strong>Explore the docs »</strong></a>
     <br />
@@ -135,7 +135,7 @@ The TankControl class is a subclass of rclpy.node.Node, which means it is a ROS2
 
 The listener_callback method is called whenever a message is received on the /turtle1/cmd_vel topic. It extracts the linear and angular velocities from the message and calls the drive method to control the motors accordingly. The drive method sets the direction and speed of the motors using the GPIO pins and PWM, and the stop_motors method stops the motors and cleans up the GPIO pins when the node is shut down.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://github.com/jhiggason/YahBoomG1Tank#getting-started)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
