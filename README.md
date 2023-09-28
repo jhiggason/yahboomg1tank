@@ -7,11 +7,14 @@
 ![MIT License][license-shield]
 ![LinkedIn][linkedin-shield]
 
-<div align="center">
+
     <a href="https://github.com/jhiggason/YahBoomG1Tank">
         <img src="img/tank.png" alt="Logo" width="670" height="268">
     </a>
+</div>
 
+<div align="left">
+    
 ## Overview
 A ROS2 Python node designed for the **YAHBOOM G1 Tank** built upon **Raspberry Pi 4**. Initially, it employs the teleop executable from `turtlesim` for foundational control, with plans for advanced methodologies in the pipeline.
 
@@ -189,27 +192,6 @@ Your Name - Jeff Higgason - jeffh@opensar.net
 Project Link: [https://github.com/jhiggason/YahBoomG1Tank](https://github.com/jhiggason/YahBoomG1Tank)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Roadmap
-
-- ✅ Working ROS2 pin communications
-- ⌛ Improved movement commands
-- 🔜 Xbox controller integration
-
-[View Open Issues](https://github.com/jhiggason/YahBoomG1Tank/issues)
-
-## Contributing
-
-Guidelines for contributing to the project.
-
-## License
-
-Licensed under MIT. [View License](https://github.com/jhiggason/YahBoomG1Tank/blob/main/LICENSE).
-
-## Contact
-
-Jeff Higgason - jeffh@opensar.net  
-[Project Link](https://github.com/jhiggason/YahBoomG1Tank)
 
 ---
 
