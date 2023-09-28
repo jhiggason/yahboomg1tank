@@ -24,7 +24,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/jhiggason/YahBoomG1Tank">
-    <img src="img/tank.png" alt="Logo" width="200" height="200">
+    <img src="img/tank.png" alt="Logo" width="670" height="268">
   </a>
 
 <h3 align="center">YAHBOOM G1 Tank ROS2</h3>
@@ -76,7 +76,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="https://hackster.imgix.net/uploads/attachments/1418126/_y4NHHNkT2t.blob?auto=compress%2Cformat&w=900&h=675&fit=min" align="center" width="500" height="375"/> 
+<img src="https://hackster.imgix.net/uploads/attachments/1418126/_y4NHHNkT2t.blob?auto=compress%2Cformat&w=900&h=675&fit=min" width="500" height="375"/> 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
