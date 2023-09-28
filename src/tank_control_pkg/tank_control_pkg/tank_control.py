@@ -11,7 +11,13 @@ class TankControl(Node):
         # Set up the GPIO pins for the left and right motors
         self.left_motor_pins = [20, 21, 16]  # Forward, Reverse, PWM
         self.right_motor_pins = [19, 26, 13]  # Forward, Reverse, PWM
+        
+        # Set up the velocity variables
+        self.lin_vel_x_ = 0.0
+        self.lin_vel_y_ = 0.0
+        self.ang_vel_ = 0.0
 
+        # Set up the GPIO pins
         try:
             GPIO.setmode(GPIO.BCM)
             
@@ -40,16 +46,21 @@ class TankControl(Node):
         )
 
     def listener_callback(self, msg):
-        linear = msg.linear.x
+        linear_x = msg.linear.x
+        linear_y = msg.linear.y
         angular = msg.angular.z
+
+        # Check for a valid linear.y value
+        if linear_y != 0:
+            self.get_logger().warn('Nonzero linear.y received. Tank drive robots can\'t move directly in the y-direction.')
 
         # You might want to further refine the control logic
         # based on your hardware and requirements.
         # For now, this is a basic approach.
-        if linear > 0:
+        if linear_x > 0:
             self.drive(self.left_motor_pins, True, False, 100)
             self.drive(self.right_motor_pins, True, False, 100)
-        elif linear < 0:
+        elif linear_x < 0:
             self.drive(self.left_motor_pins, False, True, 100)
             self.drive(self.right_motor_pins, False, True, 100)
         elif angular > 0:
