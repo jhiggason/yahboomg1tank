@@ -133,7 +133,7 @@ For any issues or to contribute, engage with this GitHub repository.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-The Python node can be found here: [tank_control.py]]https://github.com/jhiggason/yahboomg1tank/blob/main/src/tank_control_pkg/tank_control_pkg/tank_control.py
+The Python node can be found here: [tank_control.py]https://github.com/jhiggason/yahboomg1tank/blob/main/src/tank_control_pkg/tank_control_pkg/tank_control.py
 
 The TankControl class is a subclass of rclpy.node.Node, which means it is a ROS2 node that can subscribe to topics and publish messages. The __init__ method sets up the GPIO pins for the left and right motors, initializes the PWM for the motors, and subscribes to the /turtle1/cmd_vel topic with the correct message type.
 
