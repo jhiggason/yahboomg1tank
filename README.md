@@ -95,33 +95,72 @@ Beyond just a learning exercise in ROS2, our aspiration is to contribute somethi
 
 
 <!-- GETTING STARTED -->
+Certainly! Below is a "Getting Started" section for your GitHub page, formatted in markdown:
+
+```markdown
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This guide will help you set up the ROS2 Python node for the YAHBOOM G1 Tank with Raspberry Pi 4.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
+#### Hardware:
+- **YAHBOOM G1 Tank**: Ensure it's fully assembled and tested for basic operations.
+- **Raspberry Pi 4**: Should be attached and properly interfaced with the G1 Tank.
+
+#### Software:
+- **Ubuntu 22 for Raspberry Pi**: Installed and set up on your Raspberry Pi 4.
+- **ROS2 Humble-desktop**: Installed following the official [installation guide](https://index.ros.org/doc/ros2/Installation/Humble/).
+- **Colcon**: Required for building and testing ROS packages. Install with:
+  ```bash
+  sudo apt install python3-colcon-common-extensions
+  ```
+- **RPI-GPIO**: Library to control Raspberry Pi GPIO channels. Install using:
+  ```bash
+  sudo apt install python3-rpi.gpio
   ```
 
-### Installation
+### Installation and Setup
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/jhiggason/YahBoomG1Tank.git
+1. **Clone the Repository**:
+   On your Raspberry Pi 4, navigate to a directory where you wish to download the project, and run:
+   ```bash
+   git clone [YOUR_GITHUB_REPO_URL_HERE]
+   cd [YOUR_REPO_NAME]
    ```
-3. Install NPM packages
-   ```sh
-   npm install
+
+2. **Build the ROS2 Package**:
+   Using `colcon`, compile the project:
+   ```bash
+   colcon build
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+
+3. **Source the Workspace**:
+   After building, make sure to source the workspace:
+   ```bash
+   source install/setup.bash
+   ```
+
+4. **Running the Node**:
+   With everything set up, run your ROS2 node with:
+   ```bash
+   ros2 run [YOUR_PACKAGE_NAME] [YOUR_NODE_NAME]
+   ```
+
+### First Use:
+After successfully setting up and running the node, you should see the YAHBOOM G1 Tank responding to the twist messages provided by the `turtlesim` teleop or any other control method you've implemented.
+
+Remember, this is just a foundation, and you can expand upon the controls and features as you dive deeper into the project.
+
+---
+
+Feel free to raise any issues on this GitHub repository or contribute to its improvements!
+
+```
+
+Replace `[YOUR_GITHUB_REPO_URL_HERE]`, `[YOUR_REPO_NAME]`, `[YOUR_PACKAGE_NAME]`, and `[YOUR_NODE_NAME]` with appropriate values for your project.
+
+If you provide the Python code or further specifics, I can offer more tailored instructions. However, the above should be a good starting point based on the information given.
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -144,7 +183,7 @@ _For more examples, please refer to the [Documentation](https://github.com/jhigg
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
+- [X] Working ROS2 that talks on the correct raspberry pi pins
 - [ ] Feature 2
 - [ ] Feature 3
     - [ ] Nested Feature
@@ -188,17 +227,6 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jhiggason/Ya
 Your Name - Jeff Higgason - jeffh@opensar.net
 
 Project Link: [https://github.com/jhiggason/YahBoomG1Tank](https://github.com/jhiggason/YahBoomG1Tank)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
