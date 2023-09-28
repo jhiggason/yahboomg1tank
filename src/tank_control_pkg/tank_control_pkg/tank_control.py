@@ -14,7 +14,6 @@ class TankControl(Node):
 
         try:
             # Initialize the GPIO library
-            GPIO.set_internal_socket_port(8888)
             GPIO.set_debug_level(0)
             GPIO.initialize()
 
