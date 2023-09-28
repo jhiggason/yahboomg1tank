@@ -102,4 +102,21 @@ Jeff Higgason - jeffh@opensar.net
 
 ---
 
-I have removed redundant sections, structured the table of contents for a logical flow, and made content-specific sections for better organization. This format ensures readers can quickly understand the purpose and setup of the project.
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/jhiggason/YahBoomG1Tank.svg?style=for-the-badge
+[contributors-url]: https://github.com/jhiggason/YahBoomG1Tank/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/jhiggason/YahBoomG1Tank.svg?style=for-the-badge
+[forks-url]: https://github.com/jhiggason/YahBoomG1Tank/network/members
+[stars-shield]: https://img.shields.io/github/stars/jhiggason/YahBoomG1Tank.svg?style=for-the-badge
+[stars-url]: https://github.com/jhiggason/YahBoomG1Tank/stargazers
+[issues-shield]: https://img.shields.io/github/issues/jhiggason/YahBoomG1Tank.svg?style=for-the-badge
+[issues-url]: https://github.com/jhiggason/YahBoomG1Tank/issues
+[license-shield]: https://img.shields.io/github/license/jhiggason/YahBoomG1Tank.svg?style=for-the-badge
+[license-url]: https://github.com/jhiggason/YahBoomG1Tank/blob/master/LICENSE
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/jeff-higgason-2a20a9227/
+[Python.org]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[Python-url]: https://www.python.org/
+[ROS.org]: https://img.shields.io/badge/ROS2-Humble-%2322314E?style=for-the-badge&logo=ros&logoColor=%2322314E
+[ROS-url]: https://docs.ros.org/en/humble/index.html
