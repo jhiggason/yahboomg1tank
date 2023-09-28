@@ -36,7 +36,7 @@ In the initial stages, we'll be utilizing the teleop executable from `turtlesim`
 
 Beyond just a learning exercise in ROS2, our aspiration is to contribute something valuable to the broader community. This endeavor also encompasses vehicles employing the "Yahboom 4WD expansion board for robot car, SKU: 6000300085".
     <br />
-    <a href="https://github.com/jhiggason/YahBoomG1Tank"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/jhiggason/YahBoomG1Tank#getting-started"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/jhiggason/YahBoomG1Tank">View Demo</a>
