@@ -14,6 +14,7 @@ class TankControl(Node):
 
         try:
             # Initialize the GPIO library
+            GPIO.set_debug_level(0)
             GPIO.initialize()
 
             # Set up the left and right motor pins as outputs
