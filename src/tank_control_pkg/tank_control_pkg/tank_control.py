@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import RPi.GPIO as GPIO
+from time import time
 
 class TankControl(Node):
 
@@ -45,6 +46,12 @@ class TankControl(Node):
         # Initialize the flag to indicate if the message is clear
         self.msg_clear = True
 
+        # Initialize the time of the last message
+        self.last_msg_time = time()
+
+        # Initialize the flag to indicate if the motors are running
+        self.motors_running = False
+
     def subscription_callback(self, msg):
         # Extract linear and angular velocities from the message
         self.linear_x = msg.linear.x
@@ -54,29 +61,42 @@ class TankControl(Node):
         # Set the flag to indicate that a new message has been received
         self.msg_clear = False
 
+        # Update the time of the last message
+        self.last_msg_time = time()
+
     def timer_callback(self):
+        # Check the elapsed time since the last message was received
+        elapsed_time = time() - self.last_msg_time
+
+        # If the elapsed time is greater than or equal to 0.1 seconds, stop the motors if they are running
+        if elapsed_time >= 0.1 and self.motors_running:
+            self.stop_motors()
+            self.motors_running = False
+
         # If a new message has been received, set the motor speeds based on the message
         if not self.msg_clear:
             if self.linear_x > 0:  # Drive forward
                 self.drive(self.left_motor_pins, True, False, 50)
                 self.drive(self.right_motor_pins, True, False, 50)
+                self.motors_running = True
             elif self.linear_x < 0:  # Drive backward
                 self.drive(self.left_motor_pins, False, True, 50)
                 self.drive(self.right_motor_pins, False, True, 50)
+                self.motors_running = True
             elif self.angular_z > 0:  # Turn left
                 self.drive(self.left_motor_pins, False, True, 50)
                 self.drive(self.right_motor_pins, True, False, 50)
+                self.motors_running = True
             elif self.angular_z < 0:  # Turn right
                 self.drive(self.left_motor_pins, True, False, 50)
                 self.drive(self.right_motor_pins, False, True, 50)
+                self.motors_running = True
             else:  # Stop
                 self.stop_motors()
+                self.motors_running = False
 
             # Set the flag to indicate that the message has been processed
             self.msg_clear = True
-        else:
-            # If no new message has been received, stop the motors
-            self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
         try:
