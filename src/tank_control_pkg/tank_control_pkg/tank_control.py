@@ -40,17 +40,11 @@ class TankControl(Node):
             10
         )
 
-        # Create a timer to run the callback function at 10Hz
-        self.timer = self.create_timer(0.1, self.timer_callback)
-
-        # Initialize the flag to indicate if the message is clear
-        self.msg_clear = True
+        # Create a timer to run the callback function at 2Hz to check for inactivity
+        self.timer = self.create_timer(0.5, self.timer_callback)
 
         # Initialize the time of the last message
         self.last_msg_time = time()
-
-        # Initialize the flag to indicate if the motors are running
-        self.motors_running = False
 
     def subscription_callback(self, msg):
         # Extract linear and angular velocities from the message
@@ -58,8 +52,21 @@ class TankControl(Node):
         self.linear_y = msg.linear.y
         self.angular_z = msg.angular.z
 
-        # Set the flag to indicate that a new message has been received
-        self.msg_clear = False
+        # Control the motors directly based on the received message
+        if self.linear_x > 0:  # Drive forward
+            self.drive(self.left_motor_pins, True, False, 50)
+            self.drive(self.right_motor_pins, True, False, 50)
+        elif self.linear_x < 0:  # Drive backward
+            self.drive(self.left_motor_pins, False, True, 50)
+            self.drive(self.right_motor_pins, False, True, 50)
+        elif self.angular_z > 0:  # Turn left
+            self.drive(self.left_motor_pins, False, True, 50)
+            self.drive(self.right_motor_pins, True, False, 50)
+        elif self.angular_z < 0:  # Turn right
+            self.drive(self.left_motor_pins, True, False, 50)
+            self.drive(self.right_motor_pins, False, True, 50)
+        else:  # Stop
+            self.stop_motors()
 
         # Update the time of the last message
         self.last_msg_time = time()
@@ -68,35 +75,9 @@ class TankControl(Node):
         # Check the elapsed time since the last message was received
         elapsed_time = time() - self.last_msg_time
 
-        # If the elapsed time is greater than or equal to 0.1 seconds, stop the motors if they are running
-        if elapsed_time >= 0.1 and self.motors_running:
+        # If the elapsed time is greater than 0.5 seconds, stop the motors
+        if elapsed_time >= 0.5:
             self.stop_motors()
-            self.motors_running = False
-
-        # If a new message has been received, set the motor speeds based on the message
-        if not self.msg_clear:
-            if self.linear_x > 0:  # Drive forward
-                self.drive(self.left_motor_pins, True, False, 50)
-                self.drive(self.right_motor_pins, True, False, 50)
-                self.motors_running = True
-            elif self.linear_x < 0:  # Drive backward
-                self.drive(self.left_motor_pins, False, True, 50)
-                self.drive(self.right_motor_pins, False, True, 50)
-                self.motors_running = True
-            elif self.angular_z > 0:  # Turn left
-                self.drive(self.left_motor_pins, False, True, 50)
-                self.drive(self.right_motor_pins, True, False, 50)
-                self.motors_running = True
-            elif self.angular_z < 0:  # Turn right
-                self.drive(self.left_motor_pins, True, False, 50)
-                self.drive(self.right_motor_pins, False, True, 50)
-                self.motors_running = True
-            else:  # Stop
-                self.stop_motors()
-                self.motors_running = False
-
-            # Set the flag to indicate that the message has been processed
-            self.msg_clear = True
 
     def drive(self, motor_pins, forward, reverse, speed):
         try:
