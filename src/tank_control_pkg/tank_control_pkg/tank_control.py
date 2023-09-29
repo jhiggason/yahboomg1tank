@@ -39,7 +39,14 @@ class TankControl(Node):
             10
         )
 
+        # Create a timer to run the callback function at 2Hz
+        self.timer = self.create_timer(0.5, self.timer_callback)
+
+        # Initialize the flag to indicate if the message is clear
+        self.msg_clear = False
+
     def listener_callback(self, msg):
+        # Extract linear and angular velocities from the message
         linear_x = msg.linear.x
         linear_y = msg.linear.y
         angular_z = msg.angular.z
@@ -49,25 +56,37 @@ class TankControl(Node):
         if linear_x > 0:  # Drive forward
             self.drive(self.left_motor_pins, True, False, abs(linear_x))
             self.drive(self.right_motor_pins, True, False, abs(linear_x))
+            self.msg_clear = False
         elif linear_x < 0:  # Drive backward
             self.drive(self.left_motor_pins, False, True, abs(linear_x))
             self.drive(self.right_motor_pins, False, True, abs(linear_x))
+            self.msg_clear = False
         elif angular_z > 0:  # Turn left
             self.drive(self.left_motor_pins, False, True, abs(angular_z))
             self.drive(self.right_motor_pins, True, False, abs(angular_z))
+            self.msg_clear = False
         elif angular_z < 0:  # Turn right
             self.drive(self.left_motor_pins, True, False, abs(angular_z))
             self.drive(self.right_motor_pins, False, True, abs(angular_z))
+            self.msg_clear = False
         else:
+            self.msg_clear = True
+
+    def timer_callback(self):
+        # If no new message has been received, stop the motors
+        if self.msg_clear:
             self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
         try:
-            speed = min(max(speed, 0), 100)  # Ensure speed is within 0-100 range
+            # Ensure speed is within 0-100 range
+            speed = min(max(speed, 0), 100)
 
+            # Set the GPIO pins for motor direction
             GPIO.output(motor_pins[0], forward)
             GPIO.output(motor_pins[1], reverse)
 
+            # Set the PWM signal for motor speed
             if motor_pins == self.left_motor_pins:
                 self.left_pwm.ChangeDutyCycle(speed)
             else:
@@ -79,6 +98,7 @@ class TankControl(Node):
 
     def stop_motors(self):
         try:
+            # Stop the motors by setting the GPIO pins to low and the PWM signals to 0
             GPIO.output(self.left_motor_pins[0], False)
             GPIO.output(self.left_motor_pins[1], False)
             GPIO.output(self.right_motor_pins[0], False)
@@ -92,6 +112,7 @@ class TankControl(Node):
 
     def on_shutdown(self):
         try:
+            # Stop the motors and clean up the GPIO pins
             self.stop_motors()
             GPIO.cleanup()
 
@@ -101,11 +122,16 @@ class TankControl(Node):
 
 def main(args=None):
     try:
+        # Initialize the ROS2 node
         rclpy.init(args=args)
         node = TankControl()
+
         try:
+            # Spin the node until it is shut down
             rclpy.spin(node)
+
         finally:
+            # Stop the motors and clean up the GPIO pins before shutting down
             node.on_shutdown()
             node.destroy_node()
             rclpy.shutdown()
@@ -115,6 +141,3 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-
-# If you get an error "RuntimeError: No access to /dev/mem"  then run the following on your Raspberry Pi:sudo chmod 777 /dev/mem and sudo chmod 777/dev/gpiomem and then reboot the Raspberry Pi.  
-# It appears that when you use the rpgpio library on an ubuntu os vs raspbian- the permissions are not set correctly.  This is a workaround to fix the permissions. 
