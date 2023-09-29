@@ -40,7 +40,7 @@ class TankControl(Node):
         )
 
         # Create a timer to run the callback function at 2Hz
-        self.timer = self.create_timer(0.5, self.timer_callback)
+        self.timer = self.create_timer(0.2, self.timer_callback)
 
         # Initialize the flag to indicate if the message is clear
         self.msg_clear = False
