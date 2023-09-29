@@ -63,7 +63,7 @@ This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 
 - **Raspberry Pi 4**: Properly interfaced with the G1 Tank.
 
 #### Software:
-- **Ubuntu 22 for Raspberry Pi**: Installed and set up on your Raspberry Pi 4.[Ubuntu installation guide](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview).
+- **Ubuntu 22 for Raspberry Pi**: Installed and set up on your Raspberry Pi 4. [Ubuntu installation guide](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview).
 - **ROS2 Humble-desktop**: Installed and sourced following the official [ROS2 installation guide](https://index.ros.org/doc/ros2/Installation/Humble/).
 - **Colcon**: Required for building and testing ROS packages. Install with:
   ```bash
@@ -120,7 +120,8 @@ Upon successfully setting up and running the node, the YAHBOOM G1 Tank should no
 **Running the Turtlesim Node**
    To activate and run your turtlesim node, execute:
    ```bash
-   ros2 run turtlesim turtle_teleop_keys
+   ros2 run turtlesim
+   turtle_teleop_key
    ```
 
 Use your arrow keys to move the tank around. **Note** Right now the arrow keys move the tank, but nothing stops the tank.  To be improved in future versions. 
