@@ -35,7 +35,7 @@ class TankControl(Node):
         self.subscription = self.create_subscription(
             Twist,
             '/turtle1/cmd_vel',
-            self.listener_callback,
+            self.subscription_callback,
             10
         )
 
@@ -43,42 +43,40 @@ class TankControl(Node):
         self.timer = self.create_timer(0.1, self.timer_callback)
 
         # Initialize the flag to indicate if the message is clear
+        self.msg_clear = True
+
+    def subscription_callback(self, msg):
+        # Extract linear and angular velocities from the message
+        self.linear_x = msg.linear.x
+        self.linear_y = msg.linear.y
+        self.angular_z = msg.angular.z
+
+        # Set the flag to indicate that a new message has been received
         self.msg_clear = False
 
-    def listener_callback(self, msg):
-        # Extract linear and angular velocities from the message
-        linear_x = msg.linear.x
-        linear_y = msg.linear.y
-        angular_z = msg.angular.z
-
-        # Assuming linear_x drives forward/backward and linear_y performs strafe (left/right)
-        # For tank bot, strafe might not be possible, but let's take it into account anyway
-        if linear_x > 0:  # Drive forward
-            self.drive(self.left_motor_pins, True, False, 100)
-            self.drive(self.right_motor_pins, True, False, 100)
-            self.msg_clear = False
-        elif linear_x < 0:  # Drive backward
-            self.drive(self.left_motor_pins, False, True, 100)
-            self.drive(self.right_motor_pins, False, True, 100)
-            self.msg_clear = False
-        elif angular_z > 0:  # Turn left
-            self.drive(self.left_motor_pins, False, True, 100)
-            self.drive(self.right_motor_pins, True, False, 100)
-            self.msg_clear = False
-        elif angular_z < 0:  # Turn right
-            self.drive(self.left_motor_pins, True, False, 100)
-            self.drive(self.right_motor_pins, False, True, 100)
-            self.msg_clear = False
-        else:
-            self.msg_clear = True
-
     def timer_callback(self):
-        # If no new message has been received, stop the motors
-        if self.msg_clear:
-            self.stop_motors()
-        else:
-            # Reset the flag for the next cycle
+        # If a new message has been received, set the motor speeds based on the message
+        if not self.msg_clear:
+            if self.linear_x > 0:  # Drive forward
+                self.drive(self.left_motor_pins, True, False, 50)
+                self.drive(self.right_motor_pins, True, False, 50)
+            elif self.linear_x < 0:  # Drive backward
+                self.drive(self.left_motor_pins, False, True, 50)
+                self.drive(self.right_motor_pins, False, True, 50)
+            elif self.angular_z > 0:  # Turn left
+                self.drive(self.left_motor_pins, False, True, 50)
+                self.drive(self.right_motor_pins, True, False, 50)
+            elif self.angular_z < 0:  # Turn right
+                self.drive(self.left_motor_pins, True, False, 50)
+                self.drive(self.right_motor_pins, False, True, 50)
+            else:  # Stop
+                self.stop_motors()
+
+            # Set the flag to indicate that the message has been processed
             self.msg_clear = True
+        else:
+            # If no new message has been received, stop the motors
+            self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
         try:
