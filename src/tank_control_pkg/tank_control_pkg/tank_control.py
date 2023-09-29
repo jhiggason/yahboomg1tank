@@ -40,8 +40,8 @@ class TankControl(Node):
             10
         )
 
-        # Create a timer to run the callback function at 2Hz to check for inactivity
-        self.timer = self.create_timer(0.5, self.timer_callback)
+        # Create a timer to run the callback function at 10Hz to check for inactivity
+        self.timer = self.create_timer(0.1, self.timer_callback)
 
         # Initialize the time of the last message
         self.last_msg_time = time()
@@ -75,8 +75,8 @@ class TankControl(Node):
         # Check the elapsed time since the last message was received
         elapsed_time = time() - self.last_msg_time
 
-        # If the elapsed time is greater than 0.5 seconds, stop the motors
-        if elapsed_time >= 0.5:
+        # If the elapsed time is greater than 0.1 seconds, stop the motors
+        if elapsed_time >= 0.1:
             self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
@@ -120,26 +120,3 @@ class TankControl(Node):
 
         except Exception as e:
             self.get_logger().error('Error cleaning up GPIO pins: %s' % str(e))
-            raise
-
-def main(args=None):
-    try:
-        # Initialize the ROS2 node
-        rclpy.init(args=args)
-        node = TankControl()
-
-        try:
-            # Spin the node until it is shut down
-            rclpy.spin(node)
-
-        finally:
-            # Stop the motors and clean up the GPIO pins before shutting down
-            node.on_shutdown()
-            node.destroy_node()
-            rclpy.shutdown()
-
-    except Exception as e:
-        print('Error initializing ROS2 node: %s' % str(e))
-
-if __name__ == '__main__':
-    main()
