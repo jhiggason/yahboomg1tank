@@ -76,6 +76,9 @@ class TankControl(Node):
         # If no new message has been received, stop the motors
         if self.msg_clear:
             self.stop_motors()
+        else:
+            # Reset the flag for the next cycle
+            self.msg_clear = True
 
     def drive(self, motor_pins, forward, reverse, speed):
         try:
