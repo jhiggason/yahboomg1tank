@@ -54,20 +54,20 @@ class TankControl(Node):
         # Assuming linear_x drives forward/backward and linear_y performs strafe (left/right)
         # For tank bot, strafe might not be possible, but let's take it into account anyway
         if linear_x > 0:  # Drive forward
-            self.drive(self.left_motor_pins, True, False, abs(linear_x))
-            self.drive(self.right_motor_pins, True, False, abs(linear_x))
+            self.drive(self.left_motor_pins, True, False, 100)
+            self.drive(self.right_motor_pins, True, False, 100)
             self.msg_clear = False
         elif linear_x < 0:  # Drive backward
-            self.drive(self.left_motor_pins, False, True, abs(linear_x))
-            self.drive(self.right_motor_pins, False, True, abs(linear_x))
+            self.drive(self.left_motor_pins, False, True, 100)
+            self.drive(self.right_motor_pins, False, True, 100)
             self.msg_clear = False
         elif angular_z > 0:  # Turn left
-            self.drive(self.left_motor_pins, False, True, abs(angular_z))
-            self.drive(self.right_motor_pins, True, False, abs(angular_z))
+            self.drive(self.left_motor_pins, False, True, 100)
+            self.drive(self.right_motor_pins, True, False, 100)
             self.msg_clear = False
         elif angular_z < 0:  # Turn right
-            self.drive(self.left_motor_pins, True, False, abs(angular_z))
-            self.drive(self.right_motor_pins, False, True, abs(angular_z))
+            self.drive(self.left_motor_pins, True, False, 100)
+            self.drive(self.right_motor_pins, False, True, 100)
             self.msg_clear = False
         else:
             self.msg_clear = True
