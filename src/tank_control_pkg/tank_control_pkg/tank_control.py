@@ -41,7 +41,7 @@ class TankControl(Node):
         )
 
         # Create a timer to run the callback function at 10Hz to check for inactivity
-        self.timer = self.create_timer(0.09, self.timer_callback)
+        self.timer = self.create_timer(0.15, self.timer_callback)
 
         # Initialize the time of the last message
         self.last_msg_time = time()
@@ -75,8 +75,8 @@ class TankControl(Node):
         # Check the elapsed time since the last message was received
         elapsed_time = time() - self.last_msg_time
 
-        # If the elapsed time is greater than 0.9 seconds, stop the motors
-        if elapsed_time >= 0.09:
+        # If the elapsed time is greater than 0.15 seconds, stop the motors
+        if elapsed_time >= 0.15:
             self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
