@@ -120,3 +120,26 @@ class TankControl(Node):
 
         except Exception as e:
             self.get_logger().error('Error cleaning up GPIO pins: %s' % str(e))
+            raise
+
+def main(args=None):
+    try:
+        # Initialize the ROS2 node
+        rclpy.init(args=args)
+        node = TankControl()
+
+        try:
+            # Spin the node until it is shut down
+            rclpy.spin(node)
+
+        finally:
+            # Stop the motors and clean up the GPIO pins before shutting down
+            node.on_shutdown()
+            node.destroy_node()
+            rclpy.shutdown()
+
+    except Exception as e:
+        print('Error initializing ROS2 node: %s' % str(e))
+
+if __name__ == '__main__':
+    main()
