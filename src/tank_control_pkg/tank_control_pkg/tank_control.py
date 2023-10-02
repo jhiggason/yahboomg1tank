@@ -5,8 +5,12 @@ import RPi.GPIO as GPIO
 from time import time
 
 class TankControl(Node):
+    """Class for controlling tank motion using ROS2 and Raspberry Pi GPIO."""
 
     def __init__(self):
+         """
+        Initialize the TankControl node, setup GPIO pins, and create ROS2 subscriptions/timers.
+        """
         super().__init__('tank_control')
 
         # Set up the GPIO pins for the left and right motors
@@ -47,6 +51,12 @@ class TankControl(Node):
         self.last_msg_time = time()
 
     def subscription_callback(self, msg):
+        """
+        Callback to handle incoming ROS2 messages and control the tank motion.
+
+        Parameters:
+        - msg (Twist): The incoming ROS2 message containing tank's desired motion parameters.
+        """
         # Extract linear and angular velocities from the message
         self.linear_x = msg.linear.x
         self.linear_y = msg.linear.y
@@ -72,6 +82,9 @@ class TankControl(Node):
         self.last_msg_time = time()
 
     def timer_callback(self):
+        """
+        Callback function executed periodically to stop the motors if no command is received.
+        """
         # Check the elapsed time since the last message was received
         elapsed_time = time() - self.last_msg_time
 
@@ -80,6 +93,15 @@ class TankControl(Node):
             self.stop_motors()
 
     def drive(self, motor_pins, forward, reverse, speed):
+        """
+        Drive the tank in the specified direction and speed.
+
+        Parameters:
+        - motor_pins (list): Pins controlling the motor (e.g., left or right).
+        - forward (bool): Drive forward.
+        - reverse (bool): Drive backward.
+        - speed (int): Speed to drive (0-100).
+        """
         try:
             # Ensure speed is within 0-100 range
             speed = min(max(speed, 0), 100)
@@ -99,6 +121,7 @@ class TankControl(Node):
             raise
 
     def stop_motors(self):
+        """Stop both tank motors and set GPIO pins to low."""
         try:
             # Stop the motors by setting the GPIO pins to low and the PWM signals to 0
             GPIO.output(self.left_motor_pins[0], False)
@@ -113,6 +136,7 @@ class TankControl(Node):
             raise
 
     def on_shutdown(self):
+        """Actions to perform during node shutdown, including cleaning up GPIO."""
         try:
             # Stop the motors and clean up the GPIO pins
             self.stop_motors()
@@ -123,6 +147,12 @@ class TankControl(Node):
             raise
 
 def main(args=None):
+    """
+    Main function to initialize and run the TankControl ROS2 node.
+
+    Parameters:
+    - args (list, optional): Command-line arguments passed to rclpy.init(). Default is None.
+    """
     try:
         # Initialize the ROS2 node
         rclpy.init(args=args)
