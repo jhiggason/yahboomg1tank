@@ -123,7 +123,7 @@ Upon successfully setting up and running the node, the YAHBOOM G1 Tank should no
    ros2 run turtlesim turtle_teleop_key
    ```
 
-Use your arrow keys to move the tank around. **Note** Right now the arrow keys move the tank, but nothing stops the tank.  To be improved in future versions. 
+Use your arrow keys on your keyboard to move the tank around.  
 
 ---
 
@@ -178,7 +178,7 @@ _For more examples, please refer to the [Documentation](https://github.com/jhigg
 ## Roadmap
 
 - [X] Working ROS2 that talks on the correct raspberry pi pins
-- [ ] Improve movement commands to allow for better control of tank
+- [X] Improve movement commands to allow for better control of tank
 - [ ] Use xbox controller to move the tank
 
 See the [open issues](https://github.com/jhiggason/YahBoomG1Tank/issues) for a full list of proposed features (and known issues).
