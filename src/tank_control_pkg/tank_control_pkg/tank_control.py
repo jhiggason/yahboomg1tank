@@ -5,14 +5,16 @@ import RPi.GPIO as GPIO
 from time import time
 
 class TankControl(Node):
+    
     """Class for controlling tank motion using ROS2 and Raspberry Pi GPIO."""
 
     def __init__(self):
-         """
+        """
+
         Initialize the TankControl node, setup GPIO pins, and create ROS2 subscriptions/timers.
+
         """
         super().__init__('tank_control')
-
         # Set up the GPIO pins for the left and right motors
         self.left_motor_pins = [20, 21, 16]  # Forward, Reverse, PWM
         self.right_motor_pins = [19, 26, 13]  # Forward, Reverse, PWM
@@ -52,10 +54,12 @@ class TankControl(Node):
 
     def subscription_callback(self, msg):
         """
+
         Callback to handle incoming ROS2 messages and control the tank motion.
 
         Parameters:
         - msg (Twist): The incoming ROS2 message containing tank's desired motion parameters.
+
         """
         # Extract linear and angular velocities from the message
         self.linear_x = msg.linear.x
@@ -83,7 +87,9 @@ class TankControl(Node):
 
     def timer_callback(self):
         """
+
         Callback function executed periodically to stop the motors if no command is received.
+
         """
         # Check the elapsed time since the last message was received
         elapsed_time = time() - self.last_msg_time
@@ -101,6 +107,7 @@ class TankControl(Node):
         - forward (bool): Drive forward.
         - reverse (bool): Drive backward.
         - speed (int): Speed to drive (0-100).
+
         """
         try:
             # Ensure speed is within 0-100 range
