@@ -25,6 +25,7 @@ For more information on how to get started with this project, please refer to th
 
 **Key Features:**
 - Controlled via `turtlesim` teleop executable.
+- Controlled via 'ros-humble-teleop-twist-joy` that uses the ros2 package joy to provide gamepad support- like an xbox controller. 
 - Support for the "Yahboom 4WD expansion board for robot car, SKU: 6000300085" and related vehicles.
   
 <a href="https://github.com/jhiggason/YahBoomG1Tank#getting-started"><strong>Explore the Documentation »</strong></a>  
