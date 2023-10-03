@@ -16,7 +16,12 @@
 <div align="left">
     
 ## Overview
-A ROS2 Python node designed for the **YAHBOOM G1 Tank** built upon **Raspberry Pi 4**. Initially, it employs the teleop executable from `turtlesim` for foundational control, with plans for advanced methodologies in the pipeline.
+The YAHBOOM G1 Tank ROS2 project is a Python-based node designed for the YAHBOOM G1 Tank, built on the Raspberry Pi 4. This project provides a flexible and customizable platform for controlling the YAHBOOM G1 Tank, with support for the Yahboom 4WD expansion board for robot car, SKU: 6000300085, and related vehicles.
+
+The project is built on top of the Robot Operating System 2 (ROS2), which provides a powerful and flexible framework for developing robotic applications. The YAHBOOM G1 Tank ROS2 project uses either the turtlesim teleop executable for basic control or a gamepad, such as an Xbox controller, for control.
+
+For more information on how to get started with this project, please refer to the documentation. If you encounter any issues or have any questions, feel free to open a new issue on the project's GitHub page.
+
 
 **Key Features:**
 - Controlled via `turtlesim` teleop executable.
