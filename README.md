@@ -140,7 +140,7 @@ The `TankControl` class has been designed to control a tank-like robot using the
 
 1. **Initialization**: Upon instantiation of the `TankControl` class, it initializes the GPIO pins for controlling left and right motors of the tank. Additionally, it sets up the PWM (Pulse Width Modulation) for both motors. PWM is utilized to control the speed of the motors.
    
-2. **ROS2 Subscriptions**: The class subscribes to the `/turtle1/cmd_vel` topic, which expects messages of type `Twist`. This `Twist` message essentially contains the linear and angular velocity desired for the tank.
+2. **ROS2 Subscriptions**: The class subscribes to the `/cmd_vel` topic, which expects messages of type `Twist`. This `Twist` message essentially contains the linear and angular velocity desired for the tank.
    
 3. **Motor Control**: Using the received `Twist` message, the class determines the desired motion (forward, backward, turn left, turn right) and controls the GPIO pins accordingly. The `drive` method sets the appropriate GPIO pins to execute the desired motion at the specified speed.
    
@@ -150,7 +150,7 @@ The `TankControl` class has been designed to control a tank-like robot using the
 
 - **GPIO Pins Configuration**: The GPIO pins for controlling the left and right motors are defined with `self.left_motor_pins` and `self.right_motor_pins`. They contain the pins for Forward, Reverse, and PWM control.
 
-- **Subscription Topic and Message**: The class subscribes to the `/turtle1/cmd_vel` topic expecting `Twist` messages to derive the motion control instructions.
+- **Subscription Topic and Message**: The class subscribes to the `/cmd_vel` topic expecting `Twist` messages to derive the motion control instructions.
 
 - **Motor Control**: The motor control and its directionality are derived from the linear and angular components of the received `Twist` message.
 
@@ -171,6 +171,104 @@ Remember, any changes to the GPIO configuration or usage should be made with car
 _For more examples, please refer to the [Documentation](https://github.com/jhiggason/YahBoomG1Tank#getting-started)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Gamepad -->
+## Gamepad
+In this example we are going to use an Xbox Series X/S controller, connected to bluetooth on the raspberry pi, to send twist MSGs to the /cmd_vel topic.  This will control our tank. 
+
+---
+
+**Setting Up Xbox Controller on Ubuntu and ROS 2 Turtlesim Configuration**
+
+1. **Disable Secure Boot**:
+    If you are doing this on a system other than raspberry pi-please disable secure boot. 
+    - Enter your PC's BIOS/UEFI firmware settings during boot, typically by pressing `Del`, `F2`, `F12`, or `Esc`.
+    - Navigate to 'Boot' or 'Security'.
+    - Find 'Secure Boot' and set it to 'Disabled'.
+    - Save and exit.
+
+2. **Update Xbox Controller**:
+    * **On Windows**:
+        - Connect the controller and open the 'Xbox Accessories' app.
+        - Follow on-screen instructions if an update is available.
+    * **On Xbox**:
+        - Connect the controller, navigate to 'Settings' > 'Devices & connections' > 'Accessories'.
+        - Update if prompted.
+
+3. **Install Xbox Driver for Ubuntu**:
+    - Install Dependencies:
+      ```bash
+      sudo apt update
+      sudo apt install dkms git
+      ```
+    - Get `xpadneo` from its repository:
+      ```bash
+      git clone https://github.com/atar-axis/xpadneo.git
+      cd xpadneo
+      sudo ./install.sh
+      ```
+
+4. **Install Joystick Tools**:
+    ```bash
+    sudo apt update
+    sudo apt install jstest-gtk joystick
+    ```
+
+5. **Pair Xbox Controller via Bluetooth**:
+    - Start the Bluetooth CLI tool:
+      ```bash
+      sudo bluetoothctl
+      ```
+    - Turn on the agent and set it as default:
+      ```bash
+      agent on
+      default-agent
+      ```
+    - Scan for devices:
+      ```bash
+      scan on
+      ```
+    - Turn on your Xbox controller in pairing mode. Note its MAC address.
+    - Pair, trust, and connect using the MAC address (replace 'XX:XX:XX:XX:XX:XX'):
+      ```bash
+      pair XX:XX:XX:XX:XX:XX
+      trust XX:XX:XX:XX:XX:XX
+      connect XX:XX:XX:XX:XX:XX
+      ```
+    - Finish:
+      ```bash
+      scan off
+      exit
+      ```
+
+6. **Install `ros-humble-teleop-twist-joy`**:
+    ```bash
+    sudo apt update
+    sudo apt install ros-humble-teleop-twist-joy
+    ```
+7. **Adjust xbox joy settings**:
+    ```bash
+    cd /opt/ros/humble/share/teleop_twist_joy/config/
+    sudo nano xbox.config.yaml
+    ```
+
+    Edit the file and change the values to 0 and 1.
+   ```bash
+    enable_button: 0  # Button A
+    enable_turbo_button: 1  # Button B
+   ```
+   Then Ctrl+O then CTRL+X
+8. **Run Teleop Twist joy**
+    ```bash
+    ros2 launch teleop_twist_joy teleop-launch.py joy_config:='xbox'
+    ```
+
+Now you should be able to control your tank with the xbox controller after pressing the "A" button on the controller and moving the left stick. 
+
+
+    
+
+---
 
 
 
