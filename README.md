@@ -120,7 +120,7 @@ Upon successfully setting up and running the node, the YAHBOOM G1 Tank should no
 **Running the Turtlesim Node**
    To activate and run your turtlesim node, execute:
    ```bash
-   ros2 run turtlesim turtle_teleop_key
+   ros2 run turtlesim turtle_teleop_key --ros-args --remap /turtle1/cmd_vel:=/cmd_vel
    ```
 
 Use your arrow keys on your keyboard to move the tank around.  
