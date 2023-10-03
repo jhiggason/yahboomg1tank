@@ -38,10 +38,10 @@ class TankControl(Node):
             self.get_logger().error('Error setting up GPIO pins: %s' % str(e))
             raise
 
-        # Subscribe to the /turtle1/cmd_vel topic with correct message type
+        # Subscribe to the /cmd_vel topic with correct message type
         self.subscription = self.create_subscription(
             Twist,
-            '/turtle1/cmd_vel',
+            '/cmd_vel',
             self.subscription_callback,
             10
         )
