@@ -184,7 +184,7 @@ In this example we are going to use an Xbox Series X/S controller, connected to 
 
 ---
 
-**Setting Up Xbox Controller on Ubuntu and ROS 2 Turtlesim Configuration**
+**Setting Up Xbox Controller on Ubuntu 22 for ROS 2*
 
 1. **Disable Secure Boot**:
     If you are doing this on a system other than raspberry pi-please disable secure boot. 
@@ -283,7 +283,7 @@ Now you should be able to control your tank with the xbox controller after press
 
 - [X] Working ROS2 that talks on the correct raspberry pi pins
 - [X] Improve movement commands to allow for better control of tank
-- [ ] Use xbox controller to move the tank
+- [X] Use xbox controller to move the tank
 
 See the [open issues](https://github.com/jhiggason/YahBoomG1Tank/issues) for a full list of proposed features (and known issues).
 
