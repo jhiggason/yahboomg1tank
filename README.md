@@ -284,6 +284,9 @@ Now you should be able to control your tank with the xbox controller after press
 - [X] Working ROS2 that talks on the correct raspberry pi pins
 - [X] Improve movement commands to allow for better control of tank
 - [X] Use xbox controller to move the tank
+- [ ] Enable "search" LEDs and servo http://www.yahboom.net/study/G1-T-PI
+- [ ] Enable ultra-sonic sensor and servo
+- [ ] Enable basic obstical avoidance using ultra-sonic sensor
 
 See the [open issues](https://github.com/jhiggason/YahBoomG1Tank/issues) for a full list of proposed features (and known issues).
 
