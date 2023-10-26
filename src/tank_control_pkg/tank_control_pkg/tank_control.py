@@ -66,6 +66,7 @@ class TankControl(Node):
         """
         # Extract linear and angular velocities from the message
         self.linear_x = msg.linear.x
+        self.linear_y = msg.linear.y
         self.angular_z = msg.angular.z
 
         # Control the motors directly based on the received message
