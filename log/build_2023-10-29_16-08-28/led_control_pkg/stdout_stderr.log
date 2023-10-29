@@ -1,0 +1,35 @@
+running egg_info
+creating ../../build/led_control_pkg/led_control_pkg.egg-info
+writing ../../build/led_control_pkg/led_control_pkg.egg-info/PKG-INFO
+writing dependency_links to ../../build/led_control_pkg/led_control_pkg.egg-info/dependency_links.txt
+writing entry points to ../../build/led_control_pkg/led_control_pkg.egg-info/entry_points.txt
+writing requirements to ../../build/led_control_pkg/led_control_pkg.egg-info/requires.txt
+writing top-level names to ../../build/led_control_pkg/led_control_pkg.egg-info/top_level.txt
+writing manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+reading manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+writing manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/jeffh/ros2_ws/build/led_control_pkg/build
+creating /home/jeffh/ros2_ws/build/led_control_pkg/build/lib
+creating /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg
+copying led_control_pkg/led_control.py -> /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg
+copying led_control_pkg/__init__.py -> /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg
+running install
+running install_lib
+creating /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg
+copying /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg/led_control.py -> /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg
+copying /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg/__init__.py -> /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg
+byte-compiling /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg/led_control.py to led_control.cpython-310.pyc
+byte-compiling /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index
+creating /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index/resource_index
+creating /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index/resource_index/packages
+copying resource/led_control_pkg -> /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index/resource_index/packages
+copying package.xml -> /home/jeffh/ros2_ws/install/led_control_pkg/share/led_control_pkg
+running install_egg_info
+Copying ../../build/led_control_pkg/led_control_pkg.egg-info to /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg-0.0.0-py3.10.egg-info
+running install_scripts
+Installing led_control script to /home/jeffh/ros2_ws/install/led_control_pkg/lib/led_control_pkg
+writing list of installed files to '/home/jeffh/ros2_ws/build/led_control_pkg/install.log'
