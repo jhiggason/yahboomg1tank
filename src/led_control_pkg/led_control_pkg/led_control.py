@@ -60,7 +60,7 @@ class LedControlNode(Node):
 
         # Implement dead zone
         if abs(left_stick_horizontal) < self.dead_zone:
-            return
+            servo_pos = 90  # Center position
 
         # Set the servo motor position with smoothing
         self.set_servo_position(servo_pos)
