@@ -3,41 +3,44 @@ from rclpy.node import Node
 from sensor_msgs.msg import Joy
 import RPi.GPIO as GPIO
 
-class ServoControlNode(Node):
-    """
-    A ROS2 node for controlling a servo motor using Joy messages from an Xbox controller.
-    """
-    
+class LedControlNode(Node):
     def __init__(self):
-        """
-        Initialize the ServoControlNode.
-        """
-        super().__init__('servo_control_node')
-
-        # Definition of servo pin
-        self.servo_pin = 23
-        
-        # Set the GPIO port to BCM encoding mode.
-        GPIO.setmode(GPIO.BCM)
-
-        # Ignore warning information
-        GPIO.setwarnings(False)
-
-        # Servo pin is initialized into output mode
-        GPIO.setup(self.servo_pin, GPIO.OUT)
-        self.pwm_servo = GPIO.PWM(self.servo_pin, 50)
-        self.pwm_servo.start(0)
-
-        # Create a subscriber for /joy topic with callback function 'subscription_callback'.
-        self.subscriber = self.create_subscription(
+        super().__init__('led_control')
+        self.subscription = self.create_subscription(
             Joy,
             '/joy',
             self.subscription_callback,
-            10,
-        )
+            10)
+        self.subscription  # prevent unused variable warning
         
-        # Log information to the console.
-        self.get_logger().info('Servo control node has been started.')
+        # GPIO setup
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        self.ServoPin = 23
+        GPIO.setup(self.ServoPin, GPIO.OUT)
+        global pwm_servo
+        pwm_servo = GPIO.PWM(self.ServoPin, 50)
+        pwm_servo.start(0)
+
+        # Smoothing setup
+        self.previous_servo_pos = 90  # Initialize previous servo position at center
+        self.alpha = 0.2  # Smoothing factor, 0 < alpha < 1
+
+    def set_servo_position(self, position):
+        """
+        Set the servo motor position with smoothing.
+
+        Parameters:
+        position (float): The target position for the servo motor.
+        """
+        # Smooth the position using a simple low-pass filter
+        smoothed_position = self.alpha * position + (1 - self.alpha) * self.previous_servo_pos
+
+        # Update the previous servo position for the next iteration
+        self.previous_servo_pos = smoothed_position
+
+        # Set the servo motor position
+        pwm_servo.ChangeDutyCycle(2.5 + 10 * smoothed_position / 180)
 
     def subscription_callback(self, msg):
         """
@@ -46,39 +49,24 @@ class ServoControlNode(Node):
         Parameters:
         msg (sensor_msgs.msg.Joy): The received Joy message.
         """
-        # Extract the value of the first axis (left stick horizontal) from the Joy message.
-        axis_value = msg.axes[0]
+        # Extract the value of the horizontal axis of the left stick
+        left_stick_horizontal = msg.axes[0]
 
-        # Map the axis value to the servo motor range [0, 180].
-        servo_pos = (axis_value + 1) * 90
+        # Map the horizontal axis value to the servo motor range [0, 180]
+        servo_pos = (left_stick_horizontal + 1) * 90
 
-        # Set the servo motor position.
+        # Set the servo motor position with smoothing
         self.set_servo_position(servo_pos)
-
-    def set_servo_position(self, pos):
-        """
-        Set the position of the servo motor.
-        
-        Parameters:
-        pos (float): The desired position of the servo motor in degrees.
-        """
-        duty_cycle = 2.5 + 10 * pos / 180
-        self.pwm_servo.ChangeDutyCycle(duty_cycle)
-
 
 def main(args=None):
     rclpy.init(args=args)
 
-    servo_control_node = ServoControlNode()
+    led_control_node = LedControlNode()
 
-    rclpy.spin(servo_control_node)
+    rclpy.spin(led_control_node)
 
-    # Cleanup and shutdown.
-    servo_control_node.pwm_servo.stop()
-    GPIO.cleanup()
-    servo_control_node.destroy_node()
+    led_control_node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
