@@ -69,14 +69,14 @@ class LedControlNode(Node):
         Parameters:
         msg (sensor_msgs.msg.Joy): The received Joy message.
         """
-        # Extract the value of the horizontal axis of the left stick
-        left_stick_horizontal = msg.axes[0]
+        # Extract the value of the horizontal axis of the right stick
+        right_stick_horizontal = msg.axes[3]
 
         # Map the horizontal axis value to the servo motor range [0, 180]
-        servo_pos = (left_stick_horizontal + 1) * 90
+        servo_pos = (right_stick_horizontal + 1) * 90
 
         # Implement dead zone
-        if abs(left_stick_horizontal) < self.dead_zone:
+        if abs(right_stick_horizontal) < self.dead_zone:
             servo_pos = 90  # Center position
 
         # Set the servo motor position with smoothing
