@@ -1,3 +1,0 @@
-[console_scripts]
-led_control = led_control_pkg.led_control:main
-
