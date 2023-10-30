@@ -1,0 +1,37 @@
+[0.696s] Invoking command in '/home/jeffh/ros2_ws/src/led_control_pkg': PYTHONPATH=/home/jeffh/ros2_ws/build/led_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/led_control_pkg build --build-base /home/jeffh/ros2_ws/build/led_control_pkg/build install --record /home/jeffh/ros2_ws/build/led_control_pkg/install.log --single-version-externally-managed
+[0.850s] running egg_info
+[0.851s] creating ../../build/led_control_pkg/led_control_pkg.egg-info
+[0.851s] writing ../../build/led_control_pkg/led_control_pkg.egg-info/PKG-INFO
+[0.851s] writing dependency_links to ../../build/led_control_pkg/led_control_pkg.egg-info/dependency_links.txt
+[0.851s] writing entry points to ../../build/led_control_pkg/led_control_pkg.egg-info/entry_points.txt
+[0.851s] writing requirements to ../../build/led_control_pkg/led_control_pkg.egg-info/requires.txt
+[0.851s] writing top-level names to ../../build/led_control_pkg/led_control_pkg.egg-info/top_level.txt
+[0.851s] writing manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+[0.852s] reading manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+[0.853s] writing manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+[0.853s] running build
+[0.854s] running build_py
+[0.854s] creating /home/jeffh/ros2_ws/build/led_control_pkg/build
+[0.854s] creating /home/jeffh/ros2_ws/build/led_control_pkg/build/lib
+[0.854s] creating /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg
+[0.854s] copying led_control_pkg/led_control.py -> /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg
+[0.854s] copying led_control_pkg/__init__.py -> /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg
+[0.854s] running install
+[0.854s] running install_lib
+[0.855s] creating /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg
+[0.855s] copying /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg/led_control.py -> /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg
+[0.855s] copying /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg/__init__.py -> /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg
+[0.855s] byte-compiling /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg/led_control.py to led_control.cpython-310.pyc
+[0.856s] byte-compiling /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg/__init__.py to __init__.cpython-310.pyc
+[0.856s] running install_data
+[0.856s] creating /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index
+[0.856s] creating /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index/resource_index
+[0.856s] creating /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index/resource_index/packages
+[0.856s] copying resource/led_control_pkg -> /home/jeffh/ros2_ws/install/led_control_pkg/share/ament_index/resource_index/packages
+[0.856s] copying package.xml -> /home/jeffh/ros2_ws/install/led_control_pkg/share/led_control_pkg
+[0.856s] running install_egg_info
+[0.857s] Copying ../../build/led_control_pkg/led_control_pkg.egg-info to /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg-0.0.0-py3.10.egg-info
+[0.858s] running install_scripts
+[0.871s] Installing led_control script to /home/jeffh/ros2_ws/install/led_control_pkg/lib/led_control_pkg
+[0.871s] writing list of installed files to '/home/jeffh/ros2_ws/build/led_control_pkg/install.log'
+[0.933s] Invoked command in '/home/jeffh/ros2_ws/src/led_control_pkg' returned '0': PYTHONPATH=/home/jeffh/ros2_ws/build/led_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/led_control_pkg build --build-base /home/jeffh/ros2_ws/build/led_control_pkg/build install --record /home/jeffh/ros2_ws/build/led_control_pkg/install.log --single-version-externally-managed

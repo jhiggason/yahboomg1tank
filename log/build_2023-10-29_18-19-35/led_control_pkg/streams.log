@@ -1,0 +1,24 @@
+[0.754s] Invoking command in '/home/jeffh/ros2_ws/src/led_control_pkg': PYTHONPATH=/home/jeffh/ros2_ws/build/led_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/led_control_pkg build --build-base /home/jeffh/ros2_ws/build/led_control_pkg/build install --record /home/jeffh/ros2_ws/build/led_control_pkg/install.log --single-version-externally-managed
+[0.904s] running egg_info
+[0.904s] writing ../../build/led_control_pkg/led_control_pkg.egg-info/PKG-INFO
+[0.904s] writing dependency_links to ../../build/led_control_pkg/led_control_pkg.egg-info/dependency_links.txt
+[0.904s] writing entry points to ../../build/led_control_pkg/led_control_pkg.egg-info/entry_points.txt
+[0.905s] writing requirements to ../../build/led_control_pkg/led_control_pkg.egg-info/requires.txt
+[0.905s] writing top-level names to ../../build/led_control_pkg/led_control_pkg.egg-info/top_level.txt
+[0.908s] reading manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+[0.909s] writing manifest file '../../build/led_control_pkg/led_control_pkg.egg-info/SOURCES.txt'
+[0.909s] running build
+[0.910s] running build_py
+[0.910s] copying led_control_pkg/led_control.py -> /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg
+[0.910s] running install
+[0.910s] running install_lib
+[0.910s] copying /home/jeffh/ros2_ws/build/led_control_pkg/build/lib/led_control_pkg/led_control.py -> /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg
+[0.911s] byte-compiling /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg/led_control.py to led_control.cpython-310.pyc
+[0.911s] running install_data
+[0.911s] running install_egg_info
+[0.912s] removing '/home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg-0.0.0-py3.10.egg-info' (and everything under it)
+[0.913s] Copying ../../build/led_control_pkg/led_control_pkg.egg-info to /home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages/led_control_pkg-0.0.0-py3.10.egg-info
+[0.913s] running install_scripts
+[0.926s] Installing led_control script to /home/jeffh/ros2_ws/install/led_control_pkg/lib/led_control_pkg
+[0.926s] writing list of installed files to '/home/jeffh/ros2_ws/build/led_control_pkg/install.log'
+[0.953s] Invoked command in '/home/jeffh/ros2_ws/src/led_control_pkg' returned '0': PYTHONPATH=/home/jeffh/ros2_ws/build/led_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/led_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/led_control_pkg build --build-base /home/jeffh/ros2_ws/build/led_control_pkg/build install --record /home/jeffh/ros2_ws/build/led_control_pkg/install.log --single-version-externally-managed
