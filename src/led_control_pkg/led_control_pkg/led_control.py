@@ -83,11 +83,11 @@ class LedControlNode(Node):
         self.set_servo_position(servo_pos)
 
         # LED color control
-        if msg.buttons[0] == 1:
+        if msg.buttons[1] == 1:
             self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)  # Red
-        elif msg.buttons[1] == 1:
-            self.set_led_color(GPIO.HIGH, GPIO.HIGH, GPIO.HIGH)  # White
         elif msg.buttons[2] == 1:
+            self.set_led_color(GPIO.HIGH, GPIO.HIGH, GPIO.HIGH)  # White
+        elif msg.buttons[3] == 1:
             self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.HIGH)  # Blue
 
 def main(args=None):
