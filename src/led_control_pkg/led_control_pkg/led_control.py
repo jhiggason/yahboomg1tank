@@ -53,6 +53,31 @@ class LedControlNode(Node):
 
         # Dead zone setup
         self.dead_zone = 0.05
+        
+def subscription_callback(self, msg):
+    """
+    Callback function for the /joy topic subscription.
+    """
+    self.enabled = msg.buttons[0] == 1  # Monitor button at index [0] - typically the "A" button on xbox controllers
+    
+    if self.enabled:
+        right_stick_horizontal = msg.axes[3]
+        servo_pos = (right_stick_horizontal + 1) * 90
+
+        if abs(right_stick_horizontal) < self.dead_zone:
+            servo_pos = 90
+
+        self.set_servo_position(servo_pos)
+
+        if msg.buttons[1] == 1:
+            self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)
+        elif msg.buttons[2] == 1:
+            self.set_led_color(GPIO.HIGH, GPIO.HIGH, GPIO.HIGH)
+        elif msg.buttons[3] == 1:
+            self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.HIGH)
+    else:
+        self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.LOW)
+        self.set_servo_position(90)  # Center the servo when disabled
 
 
     def destroy_node(self):
@@ -83,30 +108,6 @@ class LedControlNode(Node):
         GPIO.output(self.LED_G, g)
         GPIO.output(self.LED_B, b)
 
-def subscription_callback(self, msg):
-    """
-    Callback function for the /joy topic subscription.
-    """
-    self.enabled = msg.buttons[0] == 1  # Monitor button at index [0] - typically the "A" button on xbox controllers
-    
-    if self.enabled:
-        right_stick_horizontal = msg.axes[3]
-        servo_pos = (right_stick_horizontal + 1) * 90
-
-        if abs(right_stick_horizontal) < self.dead_zone:
-            servo_pos = 90
-
-        self.set_servo_position(servo_pos)
-
-        if msg.buttons[1] == 1:
-            self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)
-        elif msg.buttons[2] == 1:
-            self.set_led_color(GPIO.HIGH, GPIO.HIGH, GPIO.HIGH)
-        elif msg.buttons[3] == 1:
-            self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.HIGH)
-    else:
-        self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.LOW)
-        self.set_servo_position(90)  # Center the servo when disabled
 
 def main(args=None):
     """
