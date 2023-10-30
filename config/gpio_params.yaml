@@ -1,0 +1,6 @@
+# gpio_params.yaml
+gpio_pins:
+  servo: 23
+  led_r: 22
+  led_g: 27
+  led_b: 24
