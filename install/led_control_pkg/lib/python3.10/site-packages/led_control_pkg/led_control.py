@@ -1,19 +1,27 @@
 import os
-import yaml
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 import RPi.GPIO as GPIO
 
 class LedControlNode(Node):
-    def __init__(self, config):
+    def __init__(self):
         """
         Initializes the LedControlNode class.
         """
         super().__init__('led_control')
 
-        # Load configuration from YAML file
-        self.config = config
+        # Declare parameters
+        self.declare_parameter('gpio_pins.servo', 23)
+        self.declare_parameter('gpio_pins.led_r', 22)
+        self.declare_parameter('gpio_pins.led_g', 27)
+        self.declare_parameter('gpio_pins.led_b', 24)
+
+        # Get parameters
+        servo_pin = self.get_parameter('gpio_pins.servo').value
+        led_r_pin = self.get_parameter('gpio_pins.led_r').value
+        led_g_pin = self.get_parameter('gpio_pins.led_g').value
+        led_b_pin = self.get_parameter('gpio_pins.led_b').value
 
         # Subscribe to the /joy topic to receive joystick messages.
         self.subscription = self.create_subscription(
@@ -27,13 +35,13 @@ class LedControlNode(Node):
         GPIO.setwarnings(False)
 
         # Setup pins as output
-        GPIO.setup(self.config['ServoPin'], GPIO.OUT)
-        GPIO.setup(self.config['LED_R'], GPIO.OUT)
-        GPIO.setup(self.config['LED_G'], GPIO.OUT)
-        GPIO.setup(self.config['LED_B'], GPIO.OUT)
+        GPIO.setup(servo_pin, GPIO.OUT)
+        GPIO.setup(led_r_pin, GPIO.OUT)
+        GPIO.setup(led_g_pin, GPIO.OUT)
+        GPIO.setup(led_b_pin, GPIO.OUT)
 
         # Initialize PWM on ServoPin with frequency of 50Hz
-        self.pwm_servo = GPIO.PWM(self.config['ServoPin'], 50)
+        self.pwm_servo = GPIO.PWM(servo_pin, 50)
         self.pwm_servo.start(0)  # Start PWM with 0% duty cycle
 
         # Smoothing setup
@@ -43,19 +51,14 @@ class LedControlNode(Node):
         # Dead zone setup
         self.dead_zone = 0.05  # Dead zone around the center position
 
-    # ... (other methods remain the same)
+    # ... (rest of your methods)
 
 def main(args=None):
     # Initialize the ROS 2 Python client library
     rclpy.init(args=args)
 
-    # Load configuration from YAML file
-    config_path = os.path.join(os.path.dirname(__file__), 'config.yaml')
-    with open(config_path, 'r') as f:
-        config = yaml.safe_load(f)
-
     # Create an instance of the LedControlNode class
-    led_control_node = LedControlNode(config)
+    led_control_node = LedControlNode()
 
     try:
         # Spin the node to process incoming messages

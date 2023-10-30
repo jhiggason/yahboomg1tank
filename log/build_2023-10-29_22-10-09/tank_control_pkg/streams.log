@@ -1,0 +1,21 @@
+[0.683s] Invoking command in '/home/jeffh/ros2_ws/src/tank_control_pkg': PYTHONPATH=/home/jeffh/ros2_ws/build/tank_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/tank_control_pkg build --build-base /home/jeffh/ros2_ws/build/tank_control_pkg/build install --record /home/jeffh/ros2_ws/build/tank_control_pkg/install.log --single-version-externally-managed
+[0.835s] running egg_info
+[0.836s] writing ../../build/tank_control_pkg/tank_control_pkg.egg-info/PKG-INFO
+[0.836s] writing dependency_links to ../../build/tank_control_pkg/tank_control_pkg.egg-info/dependency_links.txt
+[0.836s] writing entry points to ../../build/tank_control_pkg/tank_control_pkg.egg-info/entry_points.txt
+[0.836s] writing requirements to ../../build/tank_control_pkg/tank_control_pkg.egg-info/requires.txt
+[0.836s] writing top-level names to ../../build/tank_control_pkg/tank_control_pkg.egg-info/top_level.txt
+[0.837s] reading manifest file '../../build/tank_control_pkg/tank_control_pkg.egg-info/SOURCES.txt'
+[0.838s] writing manifest file '../../build/tank_control_pkg/tank_control_pkg.egg-info/SOURCES.txt'
+[0.838s] running build
+[0.838s] running build_py
+[0.838s] running install
+[0.839s] running install_lib
+[0.839s] running install_data
+[0.840s] running install_egg_info
+[0.841s] removing '/home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg-0.0.0-py3.10.egg-info' (and everything under it)
+[0.841s] Copying ../../build/tank_control_pkg/tank_control_pkg.egg-info to /home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages/tank_control_pkg-0.0.0-py3.10.egg-info
+[0.841s] running install_scripts
+[0.854s] Installing tank_control script to /home/jeffh/ros2_ws/install/tank_control_pkg/lib/tank_control_pkg
+[0.854s] writing list of installed files to '/home/jeffh/ros2_ws/build/tank_control_pkg/install.log'
+[0.880s] Invoked command in '/home/jeffh/ros2_ws/src/tank_control_pkg' returned '0': PYTHONPATH=/home/jeffh/ros2_ws/build/tank_control_pkg/prefix_override:/home/jeffh/ros2_ws/install/tank_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/tank_control_pkg build --build-base /home/jeffh/ros2_ws/build/tank_control_pkg/build install --record /home/jeffh/ros2_ws/build/tank_control_pkg/install.log --single-version-externally-managed
