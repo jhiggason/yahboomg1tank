@@ -66,6 +66,8 @@ class LedControlNode(Node):
         """
         Set the servo motor position with smoothing.
         """
+        if not self.enabled:
+            return  # Disable the servo when not enabled
         smoothed_position = self.alpha * position + (1 - self.alpha) * self.previous_servo_pos
         self.previous_servo_pos = smoothed_position
         pulsewidth = (smoothed_position * 11) + 500
@@ -96,13 +98,11 @@ class LedControlNode(Node):
             self.set_servo_position(servo_pos)
 
             if msg.buttons[1] == 1:
-                self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)
-            elif msg.buttons[2] == 1:
-                self.set_led_color(GPIO.HIGH, GPIO.HIGH, GPIO.HIGH)
-            elif msg.buttons[3] == 1:
-                self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.HIGH)
+                self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)  # Turn LED to red
+            else:
+                self.set_led_color(GPIO.LOW, GPIO.HIGH, GPIO.LOW)  # You can change this to any color you want when the enable button isn't pressed
         else:
-            self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.LOW)
+            self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.LOW)  # Turn off the LED when disabled
             self.set_servo_position(90)  # Center the servo when disabled
 
 def main(args=None):
