@@ -153,9 +153,7 @@ class TankControl(Node):
 
         self.get_logger().info(f'Motor direction: {"forward" if fwd else "backward"}')
         self.get_logger().info(f'Motor speed set to: {speed}')
-        GPIO.output(pins[0], fwd)
-        GPIO.output(pins[1], rev)
-        pins[2].ChangeDutyCycle(speed)
+
 
     def stop_motors(self, pins):
         """
