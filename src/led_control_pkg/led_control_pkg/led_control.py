@@ -41,13 +41,13 @@ class LedControlNode(Node):
         self.pwm_servo = GPIO.PWM(self.ServoPin, 50)
         self.pwm_servo.start(0)
 
+        # Smoothing setup
+        self.alpha = 0.2
+        self.previous_servo_pos = 90
+
         # Center the servo on startup
         self.set_servo_position(90)
 
-        # Smoothing setup
-        self.previous_servo_pos = 90
-        self.alpha = 0.2
-        
         # Dead zone setup
         self.dead_zone = 0.05
 
