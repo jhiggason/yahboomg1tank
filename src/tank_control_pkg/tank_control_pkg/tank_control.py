@@ -144,6 +144,15 @@ class TankControl(Node):
         - rev: Boolean indicating whether to drive reverse.
         - speed: The speed to drive the motor (0 to 100).
         """
+        # Ensure speed is within 0-100 range
+        speed = max(min(speed, 100), 0)
+        
+        GPIO.output(pins[0], fwd)
+        GPIO.output(pins[1], rev)
+        pins[2].ChangeDutyCycle(speed)
+
+        self.get_logger().info(f'Motor direction: {"forward" if fwd else "backward"}')
+        self.get_logger().info(f'Motor speed set to: {speed}')
         GPIO.output(pins[0], fwd)
         GPIO.output(pins[1], rev)
         pins[2].ChangeDutyCycle(speed)
