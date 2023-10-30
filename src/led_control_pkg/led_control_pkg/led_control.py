@@ -1,4 +1,3 @@
-import os
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
@@ -6,19 +5,16 @@ import RPi.GPIO as GPIO
 
 class LedControlNode(Node):
     def __init__(self):
+        """
+        Initializes the LedControlNode class.
+
+        The __init__ method is a special method in Python classes. 
+        It is run as soon as an object of a class is instantiated.
+        This method is useful for any initialization you want to do with your object.
+        """
         super().__init__('led_control')  # Initialize the parent class (Node)
 
-        # Declare parameters with default values
-        self.declare_parameter('gpio_pins.servo', 23)
-        self.declare_parameter('gpio_pins.led_r', 22)
-        self.declare_parameter('gpio_pins.led_g', 27)
-        self.declare_parameter('gpio_pins.led_b', 24)
-
-        # Get parameters from the parameter server or use default values
-        self.ServoPin = self.get_parameter('gpio_pins.servo').get_parameter_value().integer_value
-        self.LED_R = self.get_parameter('gpio_pins.led_r').get_parameter_value().integer_value
-        self.LED_G = self.get_parameter('gpio_pins.led_g').get_parameter_value().integer_value
-        self.LED_B = self.get_parameter('gpio_pins.led_b').get_parameter_value().integer_value
+        
 
         # Subscribe to the /joy topic to receive joystick messages.
         self.subscription = self.create_subscription(
@@ -32,6 +28,19 @@ class LedControlNode(Node):
         # GPIO setup
         GPIO.setmode(GPIO.BCM)  # Set the GPIO mode to BCM (Broadcom SOC channel)
         GPIO.setwarnings(False)  # Disable warnings
+
+          # Declare parameters with default values
+        self.declare_parameter('ServoPin', 23)
+        self.declare_parameter('LED_R', 22)
+        self.declare_parameter('LED_G', 27)
+        self.declare_parameter('LED_B', 24)
+
+        # Load parameters from configuration file or use default values
+        self.ServoPin = self.get_parameter('ServoPin').get_parameter_value().integer_value
+        self.LED_R = self.get_parameter('LED_R').get_parameter_value().integer_value
+        self.LED_G = self.get_parameter('LED_G').get_parameter_value().integer_value
+        self.LED_B = self.get_parameter('LED_B').get_parameter_value().integer_value
+
 
         # Setup pins as output
         GPIO.setup(self.ServoPin, GPIO.OUT)
@@ -59,10 +68,67 @@ class LedControlNode(Node):
         pwm_servo.stop()  # Stop the PWM
         GPIO.cleanup()  # Cleanup the GPIO pins
 
-    # ... (rest of the code remains the same)
+    def set_servo_position(self, position):
+        """
+        Set the servo motor position with smoothing.
+
+        Parameters:
+        position (float): The target position for the servo motor.
+        """
+        # Smooth the position using a simple low-pass filter
+        smoothed_position = self.alpha * position + (1 - self.alpha) * self.previous_servo_pos
+
+        # Update the previous servo position for the next iteration
+        self.previous_servo_pos = smoothed_position
+
+        # Set the servo motor position
+        pwm_servo.ChangeDutyCycle(2.5 + 10 * smoothed_position / 180)
+
+    def set_led_color(self, r, g, b):
+        """
+        Set the RGB LED color.
+
+        Parameters:
+        r, g, b (int): The RGB values to set the LED color.
+        """
+        GPIO.output(self.LED_R, r)
+        GPIO.output(self.LED_G, g)
+        GPIO.output(self.LED_B, b)
+
+    def subscription_callback(self, msg):
+        """
+        Callback function for the /joy topic subscription.
+        
+        Parameters:
+        msg (sensor_msgs.msg.Joy): The received Joy message.
+        """
+        # Extract the value of the horizontal axis of the right stick
+        right_stick_horizontal = msg.axes[3]
+
+        # Map the horizontal axis value to the servo motor range [0, 180]
+        servo_pos = (right_stick_horizontal + 1) * 90
+
+        # Implement dead zone
+        if abs(right_stick_horizontal) < self.dead_zone:
+            servo_pos = 90  # Center position
+
+        # Set the servo motor position with smoothing
+        self.set_servo_position(servo_pos)
+
+        # LED color control
+        if msg.buttons[1] == 1:
+            self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)  # Red
+        elif msg.buttons[2] == 1:
+            self.set_led_color(GPIO.HIGH, GPIO.HIGH, GPIO.HIGH)  # White
+        elif msg.buttons[3] == 1:
+            self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.HIGH)  # Blue
 
 def main(args=None):
+    """
+    Main function to initialize the node and start the ROS2 loop.
+    """
     rclpy.init(args=args)  # Initialize ROS2 Python client library
+
     led_control_node = LedControlNode()  # Create an instance of the LedControlNode class
 
     try:
