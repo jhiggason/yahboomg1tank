@@ -68,13 +68,17 @@ class TankControl(Node):
         self.linear_x = msg.linear.x
         self.angular_z = msg.angular.z
 
-        # Calculate left and right wheel speeds
-        left_speed = self.linear_x - self.angular_z
-        right_speed = self.linear_x + self.angular_z
+        # Define the distance between the left and right wheels in meters
+        wheel_base = 0.2286  # Change this value according to your robot's specifications
 
-        # Normalize speeds to be within -100 to 100 range
-        left_speed = max(min(left_speed, 100), -100)
-        right_speed = max(min(right_speed, 100), -100)
+        # Calculate left and right wheel speeds in m/s
+        left_speed_m_s = (2 * self.linear_x - self.angular_z * wheel_base) / 2
+        right_speed_m_s = (2 * self.linear_x + self.angular_z * wheel_base) / 2
+
+        # Map the wheel speeds from m/s to the 0 to 100 range for the PWM signal
+        max_speed_m_s = 1.0  # Maximum speed of the robot in m/s, change according to your robot's specifications
+        left_speed = self.map_range(left_speed_m_s, -max_speed_m_s, max_speed_m_s, -100, 100)
+        right_speed = self.map_range(right_speed_m_s, -max_speed_m_s, max_speed_m_s, -100, 100)
 
         # Control the left motor
         if left_speed > 0:  # Drive forward
@@ -94,6 +98,23 @@ class TankControl(Node):
 
         # Update the time of the last message received
         self.last_msg_time = time()
+
+    def map_range(self, value, in_min, in_max, out_min, out_max):
+        """
+        Map a value from one range to another.
+
+        Parameters:
+        - value: The value to be mapped.
+        - in_min: Minimum value of the input range.
+        - in_max: Maximum value of the input range.
+        - out_min: Minimum value of the output range.
+        - out_max: Maximum value of the output range.
+        
+        Returns:
+        - The mapped value.
+        """
+        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
 
     def timer_callback(self):
         """
