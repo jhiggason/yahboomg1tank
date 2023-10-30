@@ -14,8 +14,6 @@ class LedControlNode(Node):
         """
         super().__init__('led_control')  # Initialize the parent class (Node)
 
-        
-
         # Subscribe to the /joy topic to receive joystick messages.
         self.subscription = self.create_subscription(
             Joy,  # Message type
@@ -29,18 +27,11 @@ class LedControlNode(Node):
         GPIO.setmode(GPIO.BCM)  # Set the GPIO mode to BCM (Broadcom SOC channel)
         GPIO.setwarnings(False)  # Disable warnings
 
-          # Declare parameters with default values
-        self.declare_parameter('ServoPin', 23)
-        self.declare_parameter('LED_R', 22)
-        self.declare_parameter('LED_G', 27)
-        self.declare_parameter('LED_B', 24)
-
-        # Load parameters from configuration file or use default values
-        self.ServoPin = self.get_parameter('ServoPin').get_parameter_value().integer_value
-        self.LED_R = self.get_parameter('LED_R').get_parameter_value().integer_value
-        self.LED_G = self.get_parameter('LED_G').get_parameter_value().integer_value
-        self.LED_B = self.get_parameter('LED_B').get_parameter_value().integer_value
-
+        # Define pin numbers for the servo motor and LED
+        self.ServoPin = 23
+        self.LED_R = 22
+        self.LED_G = 27
+        self.LED_B = 24
 
         # Setup pins as output
         GPIO.setup(self.ServoPin, GPIO.OUT)
