@@ -59,7 +59,7 @@ class TankControl(Node):
     def subscription_callback(self, msg):
         """
         Callback to handle incoming ROS2 messages and control the tank motion.
-        
+
         Parameters:
         - msg (Twist): The incoming ROS2 message containing the tank's desired motion parameters.
         """
@@ -68,7 +68,7 @@ class TankControl(Node):
         self.angular_z = msg.angular.z
 
         # Calculate left and right wheel speeds
-        angular_speed_amplified = self.angular_z * 1.5  # amplify the angular speed
+        angular_speed_amplified = self.angular_z * 1.5  # amplify the angular speed by 1.5
         if self.linear_x >= 0:  # Forwards or stationary
             left_speed = self.linear_x - angular_speed_amplified
             right_speed = self.linear_x + angular_speed_amplified
@@ -83,21 +83,28 @@ class TankControl(Node):
         # Control the left motor
         if left_speed > 0:  # Drive forward
             self.drive(self.left_motor_pins, True, False, abs(left_speed))
+            self.get_logger().info(f'Left motor driving forward at speed: {abs(left_speed)}')
         elif left_speed < 0:  # Drive backward
             self.drive(self.left_motor_pins, False, True, abs(left_speed))
+            self.get_logger().info(f'Left motor driving backward at speed: {abs(left_speed)}')
         else:  # Stop
             self.stop_motors(self.left_motor_pins)
+            self.get_logger().info(f'Left motor stopped')
 
         # Control the right motor
         if right_speed > 0:  # Drive forward
             self.drive(self.right_motor_pins, True, False, abs(right_speed))
+            self.get_logger().info(f'Right motor driving forward at speed: {abs(right_speed)}')
         elif right_speed < 0:  # Drive backward
             self.drive(self.right_motor_pins, False, True, abs(right_speed))
+            self.get_logger().info(f'Right motor driving backward at speed: {abs(right_speed)}')
         else:  # Stop
             self.stop_motors(self.right_motor_pins)
+            self.get_logger().info(f'Right motor stopped')
 
         # Update the time of the last message received
         self.last_msg_time = time()
+
 
     def map_range(self, value, in_min, in_max, out_min, out_max):
         """
@@ -119,13 +126,13 @@ class TankControl(Node):
         """
         Callback function executed periodically to stop the motors if no command is received.
         """
-        # Check the elapsed time since the last message was received
         elapsed_time = time() - self.last_msg_time
+        self.get_logger().info(f'Elapsed time since last command: {elapsed_time} seconds')
 
-        # If the elapsed time is greater than 0.1 seconds, stop the motors
-        if elapsed_time > 0.1:
+        if elapsed_time >= 0.1:
             self.stop_motors(self.left_motor_pins)
             self.stop_motors(self.right_motor_pins)
+            self.get_logger().info('Motors stopped due to inactivity')
 
     def drive(self, pins, fwd, rev, speed):
         """
