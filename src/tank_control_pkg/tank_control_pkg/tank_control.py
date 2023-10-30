@@ -95,7 +95,6 @@ class TankControl(Node):
         # Update the time of the last message received
         self.last_msg_time = time()
 
-
     def timer_callback(self):
         """
         Callback function executed periodically to stop the motors if no command is received.
@@ -105,7 +104,8 @@ class TankControl(Node):
 
         # If the elapsed time is greater than 0.1 seconds, stop the motors
         if elapsed_time >= 0.1:
-            self.stop_motors()  # Corrected line
+            self.stop_motors(self.left_motor_pins)
+            self.stop_motors(self.right_motor_pins)
 
     def stop_motors(self):
         """
