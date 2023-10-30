@@ -57,43 +57,43 @@ class TankControl(Node):
         # Initialize the time of the last message received
         self.last_msg_time = time()
 
-def subscription_callback(self, msg):
-    """
-    Callback to handle incoming ROS2 messages and control the tank motion.
+    def subscription_callback(self, msg):
+        """
+        Callback to handle incoming ROS2 messages and control the tank motion.
 
-    Parameters:
-    - msg (Twist): The incoming ROS2 message containing the tank's desired motion parameters.
-    """
-    # Extract linear and angular velocities from the message
-    self.linear_x = msg.linear.x
-    self.angular_z = msg.angular.z
+        Parameters:
+        - msg (Twist): The incoming ROS2 message containing the tank's desired motion parameters.
+        """
+        # Extract linear and angular velocities from the message
+        self.linear_x = msg.linear.x
+        self.angular_z = msg.angular.z
 
-    # Calculate left and right wheel speeds
-    left_speed = self.linear_x - self.angular_z
-    right_speed = self.linear_x + self.angular_z
+        # Calculate left and right wheel speeds
+        left_speed = self.linear_x - self.angular_z
+        right_speed = self.linear_x + self.angular_z
 
-    # Normalize speeds to be within -100 to 100 range
-    left_speed = max(min(left_speed, 100), -100)
-    right_speed = max(min(right_speed, 100), -100)
+        # Normalize speeds to be within -100 to 100 range
+        left_speed = max(min(left_speed, 100), -100)
+        right_speed = max(min(right_speed, 100), -100)
 
-    # Control the left motor
-    if left_speed > 0:  # Drive forward
-        self.drive(self.left_motor_pins, True, False, abs(left_speed))
-    elif left_speed < 0:  # Drive backward
-        self.drive(self.left_motor_pins, False, True, abs(left_speed))
-    else:  # Stop
-        self.stop_motors(self.left_motor_pins)
+        # Control the left motor
+        if left_speed > 0:  # Drive forward
+            self.drive(self.left_motor_pins, True, False, abs(left_speed))
+        elif left_speed < 0:  # Drive backward
+            self.drive(self.left_motor_pins, False, True, abs(left_speed))
+        else:  # Stop
+            self.stop_motors(self.left_motor_pins)
 
-    # Control the right motor
-    if right_speed > 0:  # Drive forward
-        self.drive(self.right_motor_pins, True, False, abs(right_speed))
-    elif right_speed < 0:  # Drive backward
-        self.drive(self.right_motor_pins, False, True, abs(right_speed))
-    else:  # Stop
-        self.stop_motors(self.right_motor_pins)
+        # Control the right motor
+        if right_speed > 0:  # Drive forward
+            self.drive(self.right_motor_pins, True, False, abs(right_speed))
+        elif right_speed < 0:  # Drive backward
+            self.drive(self.right_motor_pins, False, True, abs(right_speed))
+        else:  # Stop
+            self.stop_motors(self.right_motor_pins)
 
-    # Update the time of the last message received
-    self.last_msg_time = time()
+        # Update the time of the last message received
+        self.last_msg_time = time()
 
 
     def timer_callback(self):
