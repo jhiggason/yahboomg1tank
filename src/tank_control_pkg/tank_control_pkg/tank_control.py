@@ -123,4 +123,55 @@ class TankControl(Node):
         elapsed_time = time() - self.last_msg_time
 
         # If the elapsed time is greater than 0.1 seconds, stop the motors
-        if elapsed_time
+        if elapsed_time > 0.1:
+            self.stop_motors(self.left_motor_pins)
+            self.stop_motors(self.right_motor_pins)
+
+    def drive(self, pins, fwd, rev, speed):
+        """
+        Set motor direction and speed.
+
+        Parameters:
+        - pins: The GPIO pins associated with the motor.
+        - fwd: Boolean indicating whether to drive forward.
+        - rev: Boolean indicating whether to drive reverse.
+        - speed: The speed to drive the motor (0 to 100).
+        """
+        GPIO.output(pins[0], fwd)
+        GPIO.output(pins[1], rev)
+        pins[2].ChangeDutyCycle(speed)
+
+    def stop_motors(self, pins):
+        """
+        Stop the motors associated with the given GPIO pins.
+
+        Parameters:
+        - pins: The GPIO pins associated with the motor to be stopped.
+        """
+        GPIO.output(pins[0], False)
+        GPIO.output(pins[1], False)
+        pins[2].ChangeDutyCycle(0)
+
+    def __del__(self):
+        """
+        Destructor to clean up GPIO pins when the object is deleted.
+        """
+        self.get_logger().info('Cleaning up GPIO pins.')
+        GPIO.cleanup()
+
+
+def main(args=None):
+    """
+    Main function to initialize the ROS2 node and run the TankControl class.
+    """
+    rclpy.init(args=args)
+    tank_control = TankControl()
+    rclpy.spin(tank_control)
+
+    # Destroy the node explicitly (optional)
+    tank_control.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
