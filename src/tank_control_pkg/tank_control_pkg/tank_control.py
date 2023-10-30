@@ -68,17 +68,17 @@ class TankControl(Node):
         self.linear_x = msg.linear.x
         self.angular_z = msg.angular.z
 
-        # Define the distance between the left and right wheels in meters
-        wheel_base = 0.2286  # Change this value according to your robot's specifications
+        # Calculate left and right wheel speeds
+        if self.linear_x >= 0:  # Forwards or stationary
+            left_speed = self.linear_x - self.angular_z
+            right_speed = self.linear_x + self.angular_z
+        else:  # Backwards
+            left_speed = self.linear_x + self.angular_z
+            right_speed = self.linear_x - self.angular_z
 
-        # Calculate left and right wheel speeds in m/s
-        left_speed_m_s = (2 * self.linear_x - self.angular_z * wheel_base) / 2
-        right_speed_m_s = (2 * self.linear_x + self.angular_z * wheel_base) / 2
-
-        # Map the wheel speeds from m/s to the 0 to 100 range for the PWM signal
-        max_speed_m_s = 1.0  # Maximum speed of the robot in m/s, change according to your robot's specifications
-        left_speed = self.map_range(left_speed_m_s, -max_speed_m_s, max_speed_m_s, -100, 100)
-        right_speed = self.map_range(right_speed_m_s, -max_speed_m_s, max_speed_m_s, -100, 100)
+        # Normalize speeds to be within -100 to 100 range
+        left_speed = self.map_range(left_speed, -1.0, 1.0, -100, 100)  # assuming -1.0 and 1.0 are min and max possible speeds
+        right_speed = self.map_range(right_speed, -1.0, 1.0, -100, 100)
 
         # Control the left motor
         if left_speed > 0:  # Drive forward
@@ -98,6 +98,7 @@ class TankControl(Node):
 
         # Update the time of the last message received
         self.last_msg_time = time()
+
 
     def map_range(self, value, in_min, in_max, out_min, out_max):
         """
