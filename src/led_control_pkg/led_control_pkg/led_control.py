@@ -5,28 +5,44 @@ import RPi.GPIO as GPIO
 
 class LedControlNode(Node):
     def __init__(self):
-        super().__init__('led_control')
+        """
+        Initializes the LedControlNode class.
+
+        The __init__ method is a special method in Python classes. 
+        It is run as soon as an object of a class is instantiated.
+        This method is useful for any initialization you want to do with your object.
+        """
+        super().__init__('led_control')  # Initialize the parent class (Node)
+
+        # Subscribe to the /joy topic to receive joystick messages.
         self.subscription = self.create_subscription(
-            Joy,
-            '/joy',
-            self.subscription_callback,
-            10)
-        self.subscription  # prevent unused variable warning
+            Joy,  # Message type
+            '/joy',  # Topic name
+            self.subscription_callback,  # Callback function
+            10)  # QoS profile (Quality of Service)
+
+        self.subscription  # Prevent unused variable warning
         
         # GPIO setup
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)  # Set the GPIO mode to BCM (Broadcom SOC channel)
+        GPIO.setwarnings(False)  # Disable warnings
+
+        # Define pin numbers for the servo motor and LED
         self.ServoPin = 23
         self.LED_R = 22
         self.LED_G = 27
         self.LED_B = 24
+
+        # Setup pins as output
         GPIO.setup(self.ServoPin, GPIO.OUT)
         GPIO.setup(self.LED_R, GPIO.OUT)
         GPIO.setup(self.LED_G, GPIO.OUT)
         GPIO.setup(self.LED_B, GPIO.OUT)
+
+        # Initialize PWM on ServoPin with frequency of 50Hz
         global pwm_servo
         pwm_servo = GPIO.PWM(self.ServoPin, 50)
-        pwm_servo.start(0)
+        pwm_servo.start(0)  # Start PWM with 0% duty cycle
 
         # Smoothing setup
         self.previous_servo_pos = 90  # Initialize previous servo position at center
@@ -36,10 +52,12 @@ class LedControlNode(Node):
         self.dead_zone = 0.05  # Dead zone around the center position
 
     def destroy_node(self):
-        super().destroy_node()
-        # Clean up GPIO pins
-        pwm_servo.stop()
-        GPIO.cleanup()
+        """
+        Cleanup function that is called when the node is destroyed.
+        """
+        super().destroy_node()  # Call the destroy_node method of the parent class
+        pwm_servo.stop()  # Stop the PWM
+        GPIO.cleanup()  # Cleanup the GPIO pins
 
     def set_servo_position(self, position):
         """
@@ -97,14 +115,20 @@ class LedControlNode(Node):
             self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.HIGH)  # Blue
 
 def main(args=None):
-    rclpy.init(args=args)
+    """
+    Main function to initialize the node and start the ROS2 loop.
+    """
+    rclpy.init(args=args)  # Initialize ROS2 Python client library
 
-    led_control_node = LedControlNode()
+    led_control_node = LedControlNode()  # Create an instance of the LedControlNode class
 
-    rclpy.spin(led_control_node)
-
-    led_control_node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(led_control_node)  # Enter the ROS2 loop
+    except KeyboardInterrupt:
+        pass  # Handle Ctrl+C gracefully
+    finally:
+        led_control_node.destroy_node()  # Clean up the node
+        rclpy.shutdown()  # Shutdown ROS2 Python client library
 
 if __name__ == '__main__':
-    main()
+    main()  # Run the main function when the script is executed
