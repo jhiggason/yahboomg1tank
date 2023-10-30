@@ -41,6 +41,9 @@ class LedControlNode(Node):
         self.pwm_servo = GPIO.PWM(self.ServoPin, 50)
         self.pwm_servo.start(0)
 
+        # Enable/disable control
+        self.enabled = False
+        
         # Smoothing setup
         self.alpha = 0.2
         self.previous_servo_pos = 90
@@ -51,8 +54,6 @@ class LedControlNode(Node):
         # Dead zone setup
         self.dead_zone = 0.05
 
-        # Enable/disable control
-        self.enabled = False
 
     def destroy_node(self):
         """
