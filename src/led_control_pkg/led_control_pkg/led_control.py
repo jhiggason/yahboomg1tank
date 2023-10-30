@@ -25,6 +25,9 @@ class LedControlNode(Node):
         # Smoothing setup
         self.previous_servo_pos = 90  # Initialize previous servo position at center
         self.alpha = 0.2  # Smoothing factor, 0 < alpha < 1
+        
+        # Dead zone setup
+        self.dead_zone = 0.05  # Dead zone around the center position
 
     def set_servo_position(self, position):
         """
@@ -54,6 +57,10 @@ class LedControlNode(Node):
 
         # Map the horizontal axis value to the servo motor range [0, 180]
         servo_pos = (left_stick_horizontal + 1) * 90
+
+        # Implement dead zone
+        if abs(left_stick_horizontal) < self.dead_zone:
+            return
 
         # Set the servo motor position with smoothing
         self.set_servo_position(servo_pos)
