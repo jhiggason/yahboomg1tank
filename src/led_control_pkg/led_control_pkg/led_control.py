@@ -87,8 +87,16 @@ class LedControlNode(Node):
         """
         Callback function for the /joy topic subscription.
         """
-        self.enabled = msg.buttons[0] == 1 # Monitor button at index [0] - typically the "A" button on xbox controllers
-        
+        enabled = msg.buttons[0] == 1  # Monitor button at index [0] - typically the "A" button on Xbox controllers
+
+        if enabled and not self.enabled:
+            self.enabled = True
+            self.set_servo_position(90)  # Center the servo when enabled
+        elif not enabled and self.enabled:
+            self.enabled = False
+            self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.LOW)  # Turn off the LED when disabled
+            self.set_servo_position(90)  # Center the servo when disabled
+
         if self.enabled:
             right_stick_horizontal = msg.axes[3]
             servo_pos = (right_stick_horizontal + 1) * 90
@@ -99,12 +107,11 @@ class LedControlNode(Node):
             self.set_servo_position(servo_pos)
 
             if msg.buttons[1] == 1:
-                self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)  # Turn LED to red
-            else:
-                self.set_led_color(GPIO.LOW, GPIO.HIGH, GPIO.LOW)  # You can change this to any color you want when the enable button isn't pressed
-        else:
-            self.set_led_color(GPIO.LOW, GPIO.LOW, GPIO.LOW)  # Turn off the LED when disabled
-            self.set_servo_position(90)  # Center the servo when disabled
+                self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.LOW)  # Red
+            elif msg.buttons[2] == 1:
+                self.set_led_color(GPIO.LOW, GPIO.HIGH, GPIO.LOW)  # Green
+            elif msg.buttons[3] == 1:
+                self.set_led_color(GPIO.HIGH, GPIO.LOW, GPIO.HIGH)  # Purple
 
 def main(args=None):
     """
