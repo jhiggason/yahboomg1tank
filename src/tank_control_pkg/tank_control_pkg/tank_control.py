@@ -69,12 +69,13 @@ class TankControl(Node):
         self.angular_z = msg.angular.z
 
         # Calculate left and right wheel speeds
+        angular_speed_amplified = self.angular_z * 1.5  # amplify the angular speed
         if self.linear_x >= 0:  # Forwards or stationary
-            left_speed = self.linear_x - self.angular_z
-            right_speed = self.linear_x + self.angular_z
+            left_speed = self.linear_x - angular_speed_amplified
+            right_speed = self.linear_x + angular_speed_amplified
         else:  # Backwards
-            left_speed = self.linear_x + self.angular_z
-            right_speed = self.linear_x - self.angular_z
+            left_speed = self.linear_x + angular_speed_amplified
+            right_speed = self.linear_x - angular_speed_amplified
 
         # Normalize speeds to be within -100 to 100 range
         left_speed = self.map_range(left_speed, -1.0, 1.0, -100, 100)  # assuming -1.0 and 1.0 are min and max possible speeds
