@@ -84,7 +84,7 @@ class LedControlNode(Node):
         """
         Callback function for the /joy topic subscription.
         """
-        self.enabled = msg.buttons[0] == 1
+        self.enabled = msg.buttons[0] == 1 # Monitor button at index [0] - typically the "A" button on xbox controllers
         
         if self.enabled:
             right_stick_horizontal = msg.axes[3]
