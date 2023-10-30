@@ -46,8 +46,8 @@ class ServoControlNode(Node):
         Parameters:
         msg (sensor_msgs.msg.Joy): The received Joy message.
         """
-        # Extract the value of the first axis (left stick vertical) from the Joy message.
-        axis_value = msg.axes[1]
+        # Extract the value of the first axis (left stick horizontal) from the Joy message.
+        axis_value = msg.axes[0]
 
         # Map the axis value to the servo motor range [0, 180].
         servo_pos = (axis_value + 1) * 90
