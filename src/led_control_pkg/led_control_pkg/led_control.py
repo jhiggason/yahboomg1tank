@@ -35,6 +35,12 @@ class LedControlNode(Node):
         # Dead zone setup
         self.dead_zone = 0.05  # Dead zone around the center position
 
+    def destroy_node(self):
+        super().destroy_node()
+        # Clean up GPIO pins
+        pwm_servo.stop()
+        GPIO.cleanup()
+
     def set_servo_position(self, position):
         """
         Set the servo motor position with smoothing.
