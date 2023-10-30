@@ -105,7 +105,26 @@ class TankControl(Node):
 
         # If the elapsed time is greater than 0.1 seconds, stop the motors
         if elapsed_time >= 0.1:
-            self.stop_motors()
+            self.stop_motors()  # Corrected line
+
+    def stop_motors(self):
+        """
+        Stop both tank motors and set GPIO pins to low.
+        """
+        try:
+            # Stop the motors by setting the GPIO pins to low and the PWM signals to 0
+            GPIO.output(self.left_motor_pins[0], False)
+            GPIO.output(self.left_motor_pins[1], False)
+            GPIO.output(self.right_motor_pins[0], False)
+            GPIO.output(self.right_motor_pins[1], False)
+            self.left_pwm.ChangeDutyCycle(0)
+            self.right_pwm.ChangeDutyCycle(0)
+
+        except Exception as e:
+            # Log any errors during motor stop
+            self.get_logger().error('Error stopping motors: %s' % str(e))
+            raise
+
 
     def drive(self, motor_pins, forward, reverse, speed):
         """
@@ -135,25 +154,6 @@ class TankControl(Node):
             # Log any errors during motor control
             self.get_logger().error('Error setting motor pins: %s' % str(e))
             raise
-
-    def stop_motors(self):
-        """
-        Stop both tank motors and set GPIO pins to low.
-        """
-        try:
-            # Stop the motors by setting the GPIO pins to low and the PWM signals to 0
-            GPIO.output(self.left_motor_pins[0], False)
-            GPIO.output(self.left_motor_pins[1], False)
-            GPIO.output(self.right_motor_pins[0], False)
-            GPIO.output(self.right_motor_pins[1], False)
-            self.left_pwm.ChangeDutyCycle(0)
-            self.right_pwm.ChangeDutyCycle(0)
-
-        except Exception as e:
-            # Log any errors during motor stop
-            self.get_logger().error('Error stopping motors: %s' % str(e))
-            raise
-
 
     def on_shutdown(self):
         """
