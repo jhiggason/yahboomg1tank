@@ -1,84 +1,69 @@
+import os
+import yaml
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 import RPi.GPIO as GPIO
 
-class ServoControlNode(Node):
-    """
-    A ROS2 node for controlling a servo motor using Joy messages from an Xbox controller.
-    """
-    
-    def __init__(self):
+class LedControlNode(Node):
+    def __init__(self, config):
         """
-        Initialize the ServoControlNode.
+        Initializes the LedControlNode class.
         """
-        super().__init__('servo_control_node')
+        super().__init__('led_control')
 
-        # Definition of servo pin
-        self.servo_pin = 23
-        
-        # Set the GPIO port to BCM encoding mode.
-        GPIO.setmode(GPIO.BCM)
+        # Load configuration from YAML file
+        self.config = config
 
-        # Ignore warning information
-        GPIO.setwarnings(False)
-
-        # Servo pin is initialized into output mode
-        GPIO.setup(self.servo_pin, GPIO.OUT)
-        self.pwm_servo = GPIO.PWM(self.servo_pin, 50)
-        self.pwm_servo.start(0)
-
-        # Create a subscriber for /joy topic with callback function 'subscription_callback'.
-        self.subscriber = self.create_subscription(
+        # Subscribe to the /joy topic to receive joystick messages.
+        self.subscription = self.create_subscription(
             Joy,
             '/joy',
             self.subscription_callback,
-            10,
-        )
-        
-        # Log information to the console.
-        self.get_logger().info('Servo control node has been started.')
+            10)
 
-    def subscription_callback(self, msg):
-        """
-        Callback function for the /joy topic subscription.
-        
-        Parameters:
-        msg (sensor_msgs.msg.Joy): The received Joy message.
-        """
-        # Extract the value of the first axis (left stick vertical) from the Joy message.
-        axis_value = msg.axes[1]
+        # GPIO setup
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
 
-        # Map the axis value to the servo motor range [0, 180].
-        servo_pos = (axis_value + 1) * 90
+        # Setup pins as output
+        GPIO.setup(self.config['ServoPin'], GPIO.OUT)
+        GPIO.setup(self.config['LED_R'], GPIO.OUT)
+        GPIO.setup(self.config['LED_G'], GPIO.OUT)
+        GPIO.setup(self.config['LED_B'], GPIO.OUT)
 
-        # Set the servo motor position.
-        self.set_servo_position(servo_pos)
+        # Initialize PWM on ServoPin with frequency of 50Hz
+        self.pwm_servo = GPIO.PWM(self.config['ServoPin'], 50)
+        self.pwm_servo.start(0)  # Start PWM with 0% duty cycle
 
-    def set_servo_position(self, pos):
-        """
-        Set the position of the servo motor.
-        
-        Parameters:
-        pos (float): The desired position of the servo motor in degrees.
-        """
-        duty_cycle = 2.5 + 10 * pos / 180
-        self.pwm_servo.ChangeDutyCycle(duty_cycle)
+        # Smoothing setup
+        self.previous_servo_pos = 90  # Initialize previous servo position at center
+        self.alpha = 0.2  # Smoothing factor, 0 < alpha < 1
 
+        # Dead zone setup
+        self.dead_zone = 0.05  # Dead zone around the center position
+
+    # ... (other methods remain the same)
 
 def main(args=None):
+    # Initialize the ROS 2 Python client library
     rclpy.init(args=args)
 
-    servo_control_node = ServoControlNode()
+    # Load configuration from YAML file
+    config_path = os.path.join(os.path.dirname(__file__), 'config.yaml')
+    with open(config_path, 'r') as f:
+        config = yaml.safe_load(f)
 
-    rclpy.spin(servo_control_node)
+    # Create an instance of the LedControlNode class
+    led_control_node = LedControlNode(config)
 
-    # Cleanup and shutdown.
-    servo_control_node.pwm_servo.stop()
-    GPIO.cleanup()
-    servo_control_node.destroy_node()
-    rclpy.shutdown()
-
+    try:
+        # Spin the node to process incoming messages
+        rclpy.spin(led_control_node)
+    finally:
+        # Clean up the node and shutdown the ROS 2 client library
+        led_control_node.destroy_node()
+        rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
