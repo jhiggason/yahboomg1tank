@@ -15,7 +15,6 @@ class TankControl(Node):
         """
         Initialize the TankControl node, setup GPIO pins, and create ROS2 subscriptions/timers.
         """
-        # Initialize the Node with the name 'tank_control'
         super().__init__('tank_control')
 
         # Define the GPIO pins for the left and right motors
@@ -60,7 +59,7 @@ class TankControl(Node):
     def subscription_callback(self, msg):
         """
         Callback to handle incoming ROS2 messages and control the tank motion.
-
+        
         Parameters:
         - msg (Twist): The incoming ROS2 message containing the tank's desired motion parameters.
         """
@@ -100,7 +99,6 @@ class TankControl(Node):
         # Update the time of the last message received
         self.last_msg_time = time()
 
-
     def map_range(self, value, in_min, in_max, out_min, out_max):
         """
         Map a value from one range to another.
@@ -108,7 +106,7 @@ class TankControl(Node):
         Parameters:
         - value: The value to be mapped.
         - in_min: Minimum value of the input range.
-        - in_max: Maximum value of the input range.
+        - in_max: Maximum value of the output range.
         - out_min: Minimum value of the output range.
         - out_max: Maximum value of the output range.
         
@@ -116,7 +114,6 @@ class TankControl(Node):
         - The mapped value.
         """
         return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-
 
     def timer_callback(self):
         """
@@ -126,108 +123,4 @@ class TankControl(Node):
         elapsed_time = time() - self.last_msg_time
 
         # If the elapsed time is greater than 0.1 seconds, stop the motors
-        if elapsed_time >= 0.1:
-            self.stop_motors(self.left_motor_pins)
-            self.stop_motors(self.right_motor_pins)
-
-
-    def stop_motors(self, motor_pins):
-        """
-        Stop the specified motor by setting its GPIO pins to low.
-        
-        Parameters:
-        - motor_pins (list): The GPIO pins controlling the motor.
-        """
-        try:
-            # Stop the motor by setting the GPIO pins to low
-            GPIO.output(motor_pins[0], False)
-            GPIO.output(motor_pins[1], False)
-            # Set the PWM duty cycle to 0 to stop the motor
-            if motor_pins == self.left_motor_pins:
-                self.left_pwm.ChangeDutyCycle(0)
-            else:
-                self.right_pwm.ChangeDutyCycle(0)
-
-        except Exception as e:
-            # Log any errors during motor stop
-            self.get_logger().error('Error stopping motor: %s' % str(e))
-            raise
-
-
-
-    def drive(self, motor_pins, forward, reverse, speed):
-        """
-        Drive the tank in the specified direction and speed.
-        
-        Parameters:
-        - motor_pins (list): Pins controlling the motor (e.g., left or right).
-        - forward (bool): Drive forward.
-        - reverse (bool): Drive backward.
-        - speed (int): Speed to drive (0-100).
-        """
-        try:
-            # Ensure speed is within 0-100 range
-            speed = min(max(speed, 0), 100)
-
-            # Set the GPIO pins for motor direction
-            GPIO.output(motor_pins[0], forward)
-            GPIO.output(motor_pins[1], reverse)
-
-            # Set the PWM signal for motor speed
-            if motor_pins == self.left_motor_pins:
-                self.left_pwm.ChangeDutyCycle(speed)
-            else:
-                self.right_pwm.ChangeDutyCycle(speed)
-
-        except Exception as e:
-            # Log any errors during motor control
-            self.get_logger().error('Error setting motor pins: %s' % str(e))
-            raise
-
-    def on_shutdown(self):
-        """
-        Actions to perform during node shutdown, including cleaning up GPIO.
-        """
-        try:
-            # Stop the motors and clean up the GPIO pins
-            self.stop_motors(self.left_motor_pins)
-            self.stop_motors(self.right_motor_pins)
-            GPIO.cleanup()
-
-        except Exception as e:
-            # Log any errors during GPIO cleanup
-            self.get_logger().error('Error cleaning up GPIO pins: %s' % str(e))
-            raise
-
-
-# Define the main function
-def main(args=None):
-    """
-    Main function to initialize and run the TankControl ROS2 node.
-    
-    Parameters:
-    - args (list, optional): Command-line arguments passed to rclpy.init(). Default is None.
-    """
-    try:
-        # Initialize the ROS2 node
-        rclpy.init(args=args)
-        node = TankControl()
-
-        try:
-            # Spin the node until it is shut down
-            rclpy.spin(node)
-
-        finally:
-            # Stop the motors and clean up the GPIO pins before shutting down
-            node.on_shutdown()
-            node.destroy_node()
-            rclpy.shutdown()
-
-    except Exception as e:
-        # Log any errors during ROS2 node initialization
-        print('Error initializing ROS2 node: %s' % str(e))
-
-# Check if the script is being run directly
-if __name__ == '__main__':
-    # Execute the main function
-    main()
+        if elapsed_time
