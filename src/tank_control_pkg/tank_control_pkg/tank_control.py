@@ -107,23 +107,29 @@ class TankControl(Node):
             self.stop_motors(self.left_motor_pins)
             self.stop_motors(self.right_motor_pins)
 
-    def stop_motors(self):
+
+    def stop_motors(self, motor_pins):
         """
-        Stop both tank motors and set GPIO pins to low.
+        Stop the specified motor by setting its GPIO pins to low.
+        
+        Parameters:
+        - motor_pins (list): The GPIO pins controlling the motor.
         """
         try:
-            # Stop the motors by setting the GPIO pins to low and the PWM signals to 0
-            GPIO.output(self.left_motor_pins[0], False)
-            GPIO.output(self.left_motor_pins[1], False)
-            GPIO.output(self.right_motor_pins[0], False)
-            GPIO.output(self.right_motor_pins[1], False)
-            self.left_pwm.ChangeDutyCycle(0)
-            self.right_pwm.ChangeDutyCycle(0)
+            # Stop the motor by setting the GPIO pins to low
+            GPIO.output(motor_pins[0], False)
+            GPIO.output(motor_pins[1], False)
+            # Set the PWM duty cycle to 0 to stop the motor
+            if motor_pins == self.left_motor_pins:
+                self.left_pwm.ChangeDutyCycle(0)
+            else:
+                self.right_pwm.ChangeDutyCycle(0)
 
         except Exception as e:
             # Log any errors during motor stop
-            self.get_logger().error('Error stopping motors: %s' % str(e))
+            self.get_logger().error('Error stopping motor: %s' % str(e))
             raise
+
 
 
     def drive(self, motor_pins, forward, reverse, speed):
