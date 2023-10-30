@@ -167,13 +167,15 @@ class TankControl(Node):
         """
         try:
             # Stop the motors and clean up the GPIO pins
-            self.stop_motors()
+            self.stop_motors(self.left_motor_pins)
+            self.stop_motors(self.right_motor_pins)
             GPIO.cleanup()
 
         except Exception as e:
             # Log any errors during GPIO cleanup
             self.get_logger().error('Error cleaning up GPIO pins: %s' % str(e))
             raise
+
 
 # Define the main function
 def main(args=None):
