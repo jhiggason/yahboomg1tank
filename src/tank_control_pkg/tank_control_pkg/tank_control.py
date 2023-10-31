@@ -11,51 +11,6 @@ class TankControl(Node):
     Class for controlling tank motion using ROS2 and Raspberry Pi GPIO.
     """
     
-    def __init__(self):
-        """
-        Initialize the TankControl node, setup GPIO pins, and create ROS2 subscriptions/timers.
-        """
-        super().__init__('tank_control')
-
-        # Define the GPIO pins for the left and right motors
-        self.left_motor_pins = [20, 21, 16]  # Forward, Reverse, PWM
-        self.right_motor_pins = [19, 26, 13]  # Forward, Reverse, PWM
-
-        try:
-            # Set the GPIO mode to BCM (Broadcom SOC channel)
-            GPIO.setmode(GPIO.BCM)
-            
-            # Set up individual pins as output
-            for pin in self.left_motor_pins + self.right_motor_pins:
-                GPIO.setup(pin, GPIO.OUT)
-
-            # Set up the PWM for the left and right motors
-            self.left_pwm = GPIO.PWM(self.left_motor_pins[2], 2000)  # 2000Hz frequency
-            self.right_pwm = GPIO.PWM(self.right_motor_pins[2], 2000)  # 2000Hz frequency
-
-            # Start the PWM with 0% duty cycle (motor off)
-            self.left_pwm.start(0)
-            self.right_pwm.start(0)
-
-        except Exception as e:
-            # Log any errors during GPIO setup
-            self.get_logger().error('Error setting up GPIO pins: %s' % str(e))
-            raise
-
-        # Subscribe to the /cmd_vel topic with the message type Twist and set the callback function
-        self.subscription = self.create_subscription(
-            Twist,
-            '/cmd_vel',
-            self.subscription_callback,
-            10
-        )
-
-        # Create a timer to run the callback function at 10Hz to check for inactivity
-        self.timer = self.create_timer(0.1, self.timer_callback)
-
-        # Initialize the time of the last message received
-        self.last_msg_time = time()
-
     def subscription_callback(self, msg):
         """
         Callback to handle incoming ROS2 messages and control the tank motion.
@@ -106,6 +61,52 @@ class TankControl(Node):
         self.last_msg_time = time()
 
 
+    def __init__(self):
+        """
+        Initialize the TankControl node, setup GPIO pins, and create ROS2 subscriptions/timers.
+        """
+        super().__init__('tank_control')
+
+        # Define the GPIO pins for the left and right motors
+        self.left_motor_pins = [20, 21, 16]  # Forward, Reverse, PWM
+        self.right_motor_pins = [19, 26, 13]  # Forward, Reverse, PWM
+
+        try:
+            # Set the GPIO mode to BCM (Broadcom SOC channel)
+            GPIO.setmode(GPIO.BCM)
+            
+            # Set up individual pins as output
+            for pin in self.left_motor_pins + self.right_motor_pins:
+                GPIO.setup(pin, GPIO.OUT)
+
+            # Set up the PWM for the left and right motors
+            self.left_pwm = GPIO.PWM(self.left_motor_pins[2], 2000)  # 2000Hz frequency
+            self.right_pwm = GPIO.PWM(self.right_motor_pins[2], 2000)  # 2000Hz frequency
+
+            # Start the PWM with 0% duty cycle (motor off)
+            self.left_pwm.start(0)
+            self.right_pwm.start(0)
+
+        except Exception as e:
+            # Log any errors during GPIO setup
+            self.get_logger().error('Error setting up GPIO pins: %s' % str(e))
+            raise
+
+        # Subscribe to the /cmd_vel topic with the message type Twist and set the callback function
+        self.subscription = self.create_subscription(
+            Twist,
+            '/cmd_vel',
+            self.subscription_callback,
+            10
+        )
+
+        # Create a timer to run the callback function at 10Hz to check for inactivity
+        self.timer = self.create_timer(0.1, self.timer_callback)
+
+        # Initialize the time of the last message received
+        self.last_msg_time = time()
+
+
     def map_range(self, value, in_min, in_max, out_min, out_max):
         """
         Map a value from one range to another.
@@ -149,13 +150,14 @@ class TankControl(Node):
         
         GPIO.output(pins[0], fwd)
         GPIO.output(pins[1], rev)
-        pins[2].ChangeDutyCycle(speed)
+
+        if pins == self.left_motor_pins:
+            self.left_pwm.ChangeDutyCycle(speed)
+        elif pins == self.right_motor_pins:
+            self.right_pwm.ChangeDutyCycle(speed)
 
         self.get_logger().info(f'Motor direction: {"forward" if fwd else "backward"}')
         self.get_logger().info(f'Motor speed set to: {speed}')
-        GPIO.output(pins[0], fwd)
-        GPIO.output(pins[1], rev)
-        pins[2].ChangeDutyCycle(speed)
 
     def stop_motors(self, pins):
         """
