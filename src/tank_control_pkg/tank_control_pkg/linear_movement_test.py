@@ -13,7 +13,7 @@ class LinearMovementTest(Node):
 
     def timer_callback(self):
         now = self.get_clock().now()
-        elapsed_time = (now - self.start_time).seconds
+        elapsed_time = (now - self.start_time).nanoseconds / 1e9  # Convert nanoseconds to seconds
 
         msg = Twist()
         if elapsed_time < self.duration:
