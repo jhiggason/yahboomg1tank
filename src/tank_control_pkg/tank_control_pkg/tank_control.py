@@ -18,6 +18,9 @@ class TankControl(Node):
         Parameters:
         - msg (Twist): The incoming ROS2 message containing the tank's desired motion parameters.
         """
+        # Limit the linear speed to the maximum speed of the robot @ 1.27m/s
+        msg.linear.x = min(msg.linear.x, 1.27)
+
         # Extract linear and angular velocities from the message
         self.linear_x = msg.linear.x
         self.angular_z = msg.angular.z
