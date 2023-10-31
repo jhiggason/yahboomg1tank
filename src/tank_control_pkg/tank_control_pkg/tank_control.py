@@ -22,14 +22,18 @@ class TankControl(Node):
         self.linear_x = msg.linear.x
         self.angular_z = msg.angular.z
 
+        # Correct the linear velocity
+        correction_factor = 0.79  # Adjust this value as needed
+        corrected_linear_x = self.linear_x * correction_factor
+
         # Calculate left and right wheel speeds
         angular_speed_amplified = self.angular_z * 1.5  # amplify the angular speed by 1.5
-        if self.linear_x >= 0:  # Forwards or stationary
-            left_speed = self.linear_x - angular_speed_amplified
-            right_speed = self.linear_x + angular_speed_amplified
+        if corrected_linear_x >= 0:  # Forwards or stationary
+            left_speed = corrected_linear_x - angular_speed_amplified
+            right_speed = corrected_linear_x + angular_speed_amplified
         else:  # Backwards
-            left_speed = self.linear_x + angular_speed_amplified
-            right_speed = self.linear_x - angular_speed_amplified
+            left_speed = corrected_linear_x + angular_speed_amplified
+            right_speed = corrected_linear_x - angular_speed_amplified
 
         # Normalize speeds to be within -100 to 100 range
         left_speed = self.map_range(left_speed, -1.0, 1.0, -100, 100)  # assuming -1.0 and 1.0 are min and max possible speeds
@@ -59,7 +63,6 @@ class TankControl(Node):
 
         # Update the time of the last message received
         self.last_msg_time = time()
-
 
     def __init__(self):
         """
