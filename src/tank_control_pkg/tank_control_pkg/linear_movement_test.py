@@ -9,7 +9,7 @@ class LinearMovementTest(Node):
         self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
         self.timer = self.create_timer(0.1, self.timer_callback)  # Run at 10 Hz
         self.start_time = self.get_clock().now()
-        self.duration = 5.0  # Run for 5 seconds
+        self.duration = 1.0  # Run for 1 seconds
 
     def timer_callback(self):
         now = self.get_clock().now()
