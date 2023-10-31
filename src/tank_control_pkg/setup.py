@@ -20,8 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "tank_control = tank_control_pkg.tank_control:main"
-            "linear_test = tank_control_pkg.linear_movement_test:main"
+            "tank_control = tank_control_pkg.tank_control:main",
+            "linear_test = tank_control_pkg.linear_movement_test:main",
         ],
     },
 )
