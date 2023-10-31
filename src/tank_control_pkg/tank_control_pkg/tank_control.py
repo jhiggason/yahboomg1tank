@@ -168,7 +168,12 @@ class TankControl(Node):
         """
         GPIO.output(pins[0], False)
         GPIO.output(pins[1], False)
-        pins[2].ChangeDutyCycle(0)
+
+        if pins == self.left_motor_pins:
+            self.left_pwm.ChangeDutyCycle(0)
+        elif pins == self.right_motor_pins:
+            self.right_pwm.ChangeDutyCycle(0)
+
 
     def __del__(self):
         """
