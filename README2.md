@@ -129,7 +129,39 @@ Upon successfully setting up and running the node, the YAHBOOM G1 Tank should no
    ros2 run turtlesim turtle_teleop_key --ros-args --remap /turtle1/cmd_vel:=/cmd_vel
    ```
 
-Use your arrow keys on your keyboard to move the tank around.
+
+## How It Works:
+
+The `TankControl` class, found in [tank_control.py](https://github.com/jhiggason/yahboomg1tank/blob/main/src/tank_control_pkg/tank_control_pkg/tank_control.py), is designed to control a tank-like robot using ROS2 and Raspberry Pi GPIO pins. It subscribes to ROS2 topics to receive motion commands and controls the robot's movement accordingly.
+
+1. **Initialization**: The class initializes upon instantiation, setting up GPIO pins for the left and right motors and configuring PWM (Pulse Width Modulation) for speed control.
+
+2. **ROS2 Subscriptions**: It subscribes to the `/cmd_vel` topic to receive `Twist` messages, containing linear and angular velocities for the tank's movement.
+
+3. **Motor Speed and Direction Control**: The class processes incoming `Twist` messages to calculate the speeds for the left and right wheels. It applies a correction factor to the linear velocity and amplifies the angular velocity. The speeds are normalized and used to control the motor direction and speed through GPIO pins.
+
+4. **Safety Features**: An inactivity timer is implemented to stop the motors if no command is received for a short duration (currently 0.1 seconds), ensuring safety.
+
+## Important Parameters:
+
+- **GPIO Pins Configuration**: `self.left_motor_pins` and `self.right_motor_pins` define the GPIO pins for the motors.
+  
+- **Message Processing**: The `subscription_callback` method processes `Twist` messages, applying a correction factor and amplifying the angular velocity to determine motor speeds.
+
+- **Inactivity Timer**: The `timer_callback` method checks for command inactivity, stopping the motors if no command is received within 0.1 seconds.
+
+## Customization:
+
+- **Motor Pins**: Modify `self.left_motor_pins` and `self.right_motor_pins` to match your GPIO configuration.
+  
+- **Subscription Topic**: Change the topic name in `create_subscription` if needed.
+  
+- **Control Logic**: Adjust the `subscription_callback` method for different tank motion logic.
+  
+- **Inactivity Duration**: Alter the inactivity duration in `timer_callback` for different safety requirements.
+
+Careful consideration should be given when modifying GPIO configurations to prevent damage to the Raspberry Pi or connected components.
+
 
 ## Gamepad Setup <!-- Add a new section for Gamepad Setup -->
 In this example, we are going to use an Xbox Series X/S controller, connected via Bluetooth to the Raspberry Pi, to send twist messages to the `/cmd_vel` topic, controlling our tank.
