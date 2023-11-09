@@ -1,4 +1,3 @@
-```markdown
 # YAHBOOM G1 Tank ROS2
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -255,6 +254,4 @@ Distributed under the MIT License. See [LICENSE](https://github.com/jhiggason/Ya
 Your Name - Jeff Higgason - jeffh@opensar.net
 
 Project Link: [https://github.com/jhiggason/YahBoomG1Tank](https://github.com/jhiggason/YahBoomG1Tank)
-```
 
-This updated README.md includes a new section for Gamepad Setup, and I've made adjustments to the content to ensure that it flows seamlessly with the rest of the document. Please replace any placeholders with actual content as needed, and feel free to further customize it to your preferences.
