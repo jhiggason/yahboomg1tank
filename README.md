@@ -140,39 +140,35 @@ For any issues or to contribute, engage with this GitHub repository.
 <!--  How It Works -->
 ## How It Works:
 
-The Python node can be found here: [tank_control.py](https://github.com/jhiggason/yahboomg1tank/blob/main/src/tank_control_pkg/tank_control_pkg/tank_control.py)
+The `TankControl` class, found in [tank_control.py](https://github.com/jhiggason/yahboomg1tank/blob/main/src/tank_control_pkg/tank_control_pkg/tank_control.py), is designed to control a tank-like robot using ROS2 and Raspberry Pi GPIO pins. It subscribes to ROS2 topics to receive motion commands and controls the robot's movement accordingly.
 
-The `TankControl` class has been designed to control a tank-like robot using the ROS2 framework and a Raspberry Pi's GPIO pins. This class is integrated into the ROS2 ecosystem, allowing it to subscribe to topics and receive messages to control the tank's motion.
+1. **Initialization**: The class initializes upon instantiation, setting up GPIO pins for the left and right motors and configuring PWM (Pulse Width Modulation) for speed control.
 
-1. **Initialization**: Upon instantiation of the `TankControl` class, it initializes the GPIO pins for controlling left and right motors of the tank. Additionally, it sets up the PWM (Pulse Width Modulation) for both motors. PWM is utilized to control the speed of the motors.
-   
-2. **ROS2 Subscriptions**: The class subscribes to the `/cmd_vel` topic, which expects messages of type `Twist`. This `Twist` message essentially contains the linear and angular velocity desired for the tank.
-   
-3. **Motor Control**: Using the received `Twist` message, the class determines the desired motion (forward, backward, turn left, turn right) and controls the GPIO pins accordingly. The `drive` method sets the appropriate GPIO pins to execute the desired motion at the specified speed.
-   
-4. **Inactivity Timer**: A timer runs a callback function at a rate of about 10Hz. If no motion command (`Twist` message) is received for 0.15 seconds, the tank's motors are stopped for safety.
+2. **ROS2 Subscriptions**: It subscribes to the `/cmd_vel` topic to receive `Twist` messages, containing linear and angular velocities for the tank's movement.
+
+3. **Motor Speed and Direction Control**: The class processes incoming `Twist` messages to calculate the speeds for the left and right wheels. It applies a correction factor to the linear velocity and amplifies the angular velocity. The speeds are normalized and used to control the motor direction and speed through GPIO pins.
+
+4. **Safety Features**: An inactivity timer is implemented to stop the motors if no command is received for a short duration (currently 0.1 seconds), ensuring safety.
 
 ## Important Parameters:
 
-- **GPIO Pins Configuration**: The GPIO pins for controlling the left and right motors are defined with `self.left_motor_pins` and `self.right_motor_pins`. They contain the pins for Forward, Reverse, and PWM control.
+- **GPIO Pins Configuration**: `self.left_motor_pins` and `self.right_motor_pins` define the GPIO pins for the motors.
+  
+- **Message Processing**: The `subscription_callback` method processes `Twist` messages, applying a correction factor and amplifying the angular velocity to determine motor speeds.
 
-- **Subscription Topic and Message**: The class subscribes to the `/cmd_vel` topic expecting `Twist` messages to derive the motion control instructions.
-
-- **Motor Control**: The motor control and its directionality are derived from the linear and angular components of the received `Twist` message.
+- **Inactivity Timer**: The `timer_callback` method checks for command inactivity, stopping the motors if no command is received within 0.1 seconds.
 
 ## Customization:
 
-To adapt the code to your specific requirements or setup:
+- **Motor Pins**: Modify `self.left_motor_pins` and `self.right_motor_pins` to match your GPIO configuration.
+  
+- **Subscription Topic**: Change the topic name in `create_subscription` if needed.
+  
+- **Control Logic**: Adjust the `subscription_callback` method for different tank motion logic.
+  
+- **Inactivity Duration**: Alter the inactivity duration in `timer_callback` for different safety requirements.
 
-1. **Motor Pins**: Modify `self.left_motor_pins` and `self.right_motor_pins` if your setup uses different GPIO pins or if you wish to change the pin assignments.
-
-2. **Subscription Topic**: If your control source publishes to a different topic or if you want to change the topic name, update the topic in the `create_subscription` method.
-
-3. **Control Logic**: If your tank's motion logic differs from the provided code, the necessary changes should be made in the `subscription_callback` method, which processes the received `Twist` messages and controls the tank.
-
-4. **Inactivity Duration**: The threshold for motor inactivity (currently 0.15 seconds) can be modified in the `timer_callback` method. 
-
-Remember, any changes to the GPIO configuration or usage should be made with care, ensuring the Raspberry Pi and any connected components are protected from incorrect configurations or potential damage.
+Careful consideration should be given when modifying GPIO configurations to prevent damage to the Raspberry Pi or connected components.
 
 _For more examples, please refer to the [Documentation](https://github.com/jhiggason/YahBoomG1Tank#getting-started)_
 
