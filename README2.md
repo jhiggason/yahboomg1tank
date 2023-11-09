@@ -1,5 +1,3 @@
-Certainly! Based on the Python code you provided and the README you shared, I've created an updated README.md file that incorporates the changes made in your Python code. Here's the updated README.md file:
-
 ```markdown
 # YAHBOOM G1 Tank ROS2
 
