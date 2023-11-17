@@ -184,6 +184,12 @@ class TankControl(Node):
         elif pins == self.right_motor_pins:
             self.right_pwm.ChangeDutyCycle(speed)
 
+        # Log the motor direction and speed
+        self.get_logger().info(f'Motor direction: {"forward" if fwd else "backward"}')
+        self.get_logger().info(f'Motor speed set to: {speed}')
+
+
+
     def stop_motors(self, pins):
         """
         Stop the motors associated with the given GPIO pins.
