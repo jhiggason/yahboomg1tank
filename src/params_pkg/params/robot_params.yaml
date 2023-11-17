@@ -87,11 +87,11 @@ gpio_pins:
       pin: 2
       mode: output
 robot_parameters:
-  inactivity_timeout: 0.1
-  angular_speed_amplification_factor: 1.5
-  max_linear_speed: 1.27
-  linear_speed_correction_factor: 0.79
-  left_track_correction_factor: 1
-  right_track_correction_factor: 1
-  logging_level: info
-  pwm_frequency: 2000
+  inactivity_timeout: 0.1 # Time in seconds after which motors stop if no command is received
+  angular_speed_amplification_factor: 1.5 # Factor to amplify angular speed- Adjust this if the tank isn't turning like you'd expect
+  max_linear_speed: 1.27  # Maximum linear speed in m/s - I ran the linear test at full speed for 1 second to see how far the tank traveled.  This probably should be adjusted based on 10 meters or 20 meters vs 1. But it's a start. 
+  linear_speed_correction_factor: 0.79 
+  left_track_correction_factor: 1 #Adjust this to < 1 if the tank is turning right while attempting to go in a straight line Try .95 then .90 ect. 
+  right_track_correction_factor: 1 #Adjust this to < 1 if the tank is turning left while attempting to go in a straight line.  
+  logging_level: info # Logging level: info, debug, error, etc.
+  pwm_frequency: 2000 # Default PWM frequency in Hz
