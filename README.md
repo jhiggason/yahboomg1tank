@@ -62,6 +62,9 @@ For more information on how to get started with this project, please refer to th
 
 This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 Tank with Raspberry Pi 4.
 
+- [LED Control Package](https://github.com/jhiggason/yahboomg1tank/tree/main/src/led_control_pkg)
+- [Tank Control Package](https://github.com/jhiggason/yahboomg1tank/tree/main/src/tank_control_pkg)
+  
 ### Prerequisites
 
 #### Hardware:
