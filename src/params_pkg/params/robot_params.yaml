@@ -1,3 +1,4 @@
+---
 gpio_pins:
   left_motor:
     forward: 20
@@ -5,111 +6,92 @@ gpio_pins:
     pwm: 16
     mode: output
     initial_state: LOW
-    left_track_correction_factor: 1.0      
-    
+    left_track_correction_factor: 1
   right_motor:
     forward: 19
     back: 26
     pwm: 13
     mode: output
     initial_state: LOW
-    right_track_correction_factor: 1.0
-
-  tracking_left_1: 
+    right_track_correction_factor: 1
+  tracking_left_1:
     pin: 3
     mode: input
-  
-  tracking_left_2: 
+  tracking_left_2:
     pin: 5
     mode: input
-
-  tracking_right_1: 
+  tracking_right_1:
     pin: 4
     mode: input
-
-  tracking_right_2: 
+  tracking_right_2:
     pin: 18
     mode: input
-
-  ir_avoid_left: 
+  ir_avoid_left:
     pin: 12
     mode: input
-
-  ir_avoid_right: 
+  ir_avoid_right:
     pin: 17
     mode: input
-
-  seek_light_left: 
+  seek_light_left:
     pin: 7
     mode: input
-
-  seek_light_right: 
+  seek_light_right:
     pin: 10
     mode: input
-
-  button: 
+  button:
     pin: 8
     mode: input
-
-  buzzer: 
+  buzzer:
     pin: 8
     mode: output
     initial_state: LOW
-
-  fan: 
+  fan:
     pin: 2
     mode: output
     initial_state: LOW
-
   searchlight:
     red: 22
     green: 27
     blue: 24
     mode: output
     initial_state: LOW
-
   ultrasonic:
     transmit: 0
     receive: 1
     mode: output
     initial_state: LOW
-
-  ir_remote: 
+  ir_remote:
     pin: 2
     mode: input
-
   ps2_controller:
     mosi: 10
     miso: 9
     cs: 25
     sck: 11
     mode: input
-
   servos:
-    servo1: 
+    servo1:
       pin: 23
       mode: output
-    servo2: 
+    servo2:
       pin: 11
       mode: output
-    servo3: 
+    servo3:
       pin: 9
       mode: output
-    servo4: 
+    servo4:
       pin: 10
       mode: output
-    servo5: 
+    servo5:
       pin: 25
       mode: output
-    servo6: 
+    servo6:
       pin: 2
       mode: output
-
-# Global parameters
 robot_parameters:
-  inactivity_timeout: 0.1  # Time in seconds after which motors stop if no command is received
-  angular_speed_amplification_factor: 1.5  # Factor to amplify angular speed
-  max_linear_speed: 1.27  # Maximum linear speed in m/s
-  linear_speed_correction_factor: 0.79  # Correction factor for linear speed
-  logging_level: "info"  # Logging level: info, debug, error, etc.
-  pwm_frequency: 2000  # Default PWM frequency in Hz
+  inactivity_timeout: 0.1
+  angular_speed_amplification_factor: 1.5
+  max_linear_speed: 1.27
+  linear_speed_correction_factor: 0.79
+  logging_level: info
+  pwm_frequency: 2000
