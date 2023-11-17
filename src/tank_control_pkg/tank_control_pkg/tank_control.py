@@ -81,7 +81,9 @@ class TankControl(Node):
         # Define the GPIO pins for the left and right motors
         self.left_motor_pins = [20, 21, 16]  # GPIO pins for Forward, Reverse, PWM of left motor
         self.right_motor_pins = [19, 26, 13]  # GPIO pins for Forward, Reverse, PWM of right motor
-
+        # Correction factors for each track (adjust these based on testing)
+        self.left_track_correction = 1.0  # Start with 1.0 and adjust as necessary
+        self.right_track_correction = 1.0  # Start with 1.0 and adjust as necessary
         try:
             # Set the GPIO mode to BCM (Broadcom SOC channel)
             GPIO.setmode(GPIO.BCM)
@@ -153,32 +155,34 @@ class TankControl(Node):
 
     def drive(self, pins, fwd, rev, speed):
         """
-        Set motor direction and speed.
+        Set motor direction and speed with correction factors applied.
 
         Parameters:
         - pins: The GPIO pins associated with the motor.
         - fwd: Boolean indicating whether to drive forward.
         - rev: Boolean indicating whether to drive reverse.
         - speed: The speed to drive the motor (0 to 100).
-        
-        This function controls the direction and speed of a motor using GPIO signals.
         """
         # Ensure speed is within 0-100 range
         speed = max(min(speed, 100), 0)
-        
-        # Set GPIO outputs for motor direction
-        GPIO.output(pins[0], fwd)  # Forward control
-        GPIO.output(pins[1], rev)  # Reverse control
 
-        # Change duty cycle of PWM to control motor speed
+        # Apply correction factor based on the motor being controlled
+        if pins == self.left_motor_pins:
+            speed *= self.left_track_correction
+        elif pins == self.right_motor_pins:
+            speed *= self.right_track_correction
+
+        # Clamp the speed to the range 0-100 after applying the correction
+        speed = max(min(speed, 100), 0)
+
+        GPIO.output(pins[0], fwd)
+        GPIO.output(pins[1], rev)
+        
+        # Set PWM duty cycle based on corrected speed
         if pins == self.left_motor_pins:
             self.left_pwm.ChangeDutyCycle(speed)
         elif pins == self.right_motor_pins:
             self.right_pwm.ChangeDutyCycle(speed)
-
-        # Log the motor direction and speed
-        self.get_logger().info(f'Motor direction: {"forward" if fwd else "backward"}')
-        self.get_logger().info(f'Motor speed set to: {speed}')
 
     def stop_motors(self, pins):
         """
