@@ -96,7 +96,7 @@ robot_parameters:
   inactivity_timeout: 0.1 # Time in seconds after which motors stop if no command is received
   angular_speed_amplification_factor: 1.5 # Factor to amplify angular speed- Adjust this if the tank isn't turning like you'd expect
   max_linear_speed: 1.27  # Maximum linear speed in m/s - How fast our tank can actually move- I ran the linear test at full speed for 1 second to see how far the tank traveled.  This probably should be adjusted based on 10 meters or 20 meters vs 1. But it's a start. 
-  correction_factor:
+  track_correction_factor:
     linear_speed: 0.79 
     # To calculate a new linear speed correction factor:
     # New Correction Factor = Current Correction Factor * (Commanded Distance / Actual Distance Travelled)
