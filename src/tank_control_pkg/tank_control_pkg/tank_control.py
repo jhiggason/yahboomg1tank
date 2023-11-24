@@ -21,6 +21,11 @@ class TankControl(Node):
         Parameters:
         - msg (Twist): The incoming ROS2 message containing the tank's desired motion parameters.
         """
+
+        # Apply an exponential curve to both linear and angular velocities
+        self.linear_x = self.apply_exponential_curve(msg.linear.x, exponent=2)
+        self.angular_z = self.apply_exponential_curve(msg.angular.z, exponent=2)
+
         # Limit the linear speed to the maximum speed of the robot
         msg.linear.x = min(msg.linear.x, 1.27)  # Ensuring robot doesn't exceed max speed
 
@@ -120,6 +125,7 @@ class TankControl(Node):
 
         # Initialize the time of the last message received
         self.last_msg_time = time()
+
     def map_range(self, value, in_min, in_max, out_min, out_max):
         """
         Map a value from one range to another.
@@ -216,6 +222,21 @@ class TankControl(Node):
         """
         self.get_logger().info('Cleaning up GPIO pins.')
         GPIO.cleanup()  # Release all GPIO resources
+
+    @staticmethod
+    def apply_exponential_curve(value, exponent):
+        """
+        Apply an exponential curve to the input value.
+
+        Parameters:
+        - value: The input value to be modified.
+        - exponent: The exponent to apply to the curve.
+
+        Returns:
+        - The value after applying the exponential curve.
+        """
+        sign = 1 if value >= 0 else -1  # Preserve the sign of the original value
+        return sign * (abs(value) ** exponent)
 
 def main(args=None):
     """
