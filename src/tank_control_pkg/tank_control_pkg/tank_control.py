@@ -1,4 +1,5 @@
 # Import necessary libraries
+import yaml # Used with yaml config file @ /src/params_pkg/params/robot_params.yaml # pip install pyYAML 
 import rclpy  # ROS 2 Python client library
 from rclpy.node import Node  # Node class for creating ROS 2 nodes
 from geometry_msgs.msg import Twist  # Message type for sending velocity commands
@@ -78,28 +79,32 @@ class TankControl(Node):
         """
         super().__init__('tank_control')  # Initialize the ROS2 node with the name 'tank_control'
 
+        self.config = self.load_yaml_config("/src/params_pkg/params/robot_params.yaml")
+
         # Define the GPIO pins for the left and right motors
-        self.left_motor_pins = [20, 21, 16]  # GPIO pins for Forward, Reverse, PWM of left motor
-        self.right_motor_pins = [19, 26, 13]  # GPIO pins for Forward, Reverse, PWM of right motor
+        # Using GPIO pin values from the YAML file
+        self.left_motor_pins = [
+            self.config['gpio_pins']['left_motor']['forward'],
+            self.config['gpio_pins']['left_motor']['back'],
+            self.config['gpio_pins']['left_motor']['pwm']
+        ]
+        self.right_motor_pins = [
+            self.config['gpio_pins']['right_motor']['forward'],
+            self.config['gpio_pins']['right_motor']['back'],
+            self.config['gpio_pins']['right_motor']['pwm']
+        ]
 
+        # Set up GPIO
         try:
-            # Set the GPIO mode to BCM (Broadcom SOC channel)
             GPIO.setmode(GPIO.BCM)
-            
-            # Set up individual pins as output
             for pin in self.left_motor_pins + self.right_motor_pins:
-                GPIO.setup(pin, GPIO.OUT)  # Configure each pin as an output
+                GPIO.setup(pin, GPIO.OUT)
 
-            # Set up the PWM for the left and right motors
-            self.left_pwm = GPIO.PWM(self.left_motor_pins[2], 2000)  # PWM for left motor with 2000Hz frequency
-            self.right_pwm = GPIO.PWM(self.right_motor_pins[2], 2000)  # PWM for right motor with 2000Hz frequency
-
-            # Start the PWM with 0% duty cycle (motor off)
+            self.left_pwm = GPIO.PWM(self.left_motor_pins[2], self.config['robot_parameters']['pwm']['frequency_motors'])
+            self.right_pwm = GPIO.PWM(self.right_motor_pins[2], self.config['robot_parameters']['pwm']['frequency_motors'])
             self.left_pwm.start(0)
             self.right_pwm.start(0)
-
         except Exception as e:
-            # Handle any errors during GPIO setup
             self.get_logger().error('Error setting up GPIO pins: %s' % str(e))
             raise
 
@@ -118,6 +123,11 @@ class TankControl(Node):
 
         # Initialize the time of the last message received
         self.last_msg_time = time()
+
+    def load_yaml_config(self, file_path):
+        with open(file_path, 'r') as file:
+            return yaml.safe_load(file)
+        
     def map_range(self, value, in_min, in_max, out_min, out_max):
         """
         Map a value from one range to another.
