@@ -79,7 +79,7 @@ class TankControl(Node):
         """
         super().__init__('tank_control')  # Initialize the ROS2 node with the name 'tank_control'
 
-        self.config = self.load_yaml_config("/src/params_pkg/params/robot_params.yaml")
+        self.config = self.load_yaml_config("/home/jeffh/ros2_ws/src/params_pkg/params/robot_params.yaml")
 
         # Define the GPIO pins for the left and right motors
         # Using GPIO pin values from the YAML file
