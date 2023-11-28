@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'led_control_pkg'
+package_name = 'robot_peripherals_pkg'
 
 setup(
     name=package_name,
@@ -14,13 +14,13 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='jeffh',
-    maintainer_email='jhiggy@gmail.com',
+    maintainer_email='jeffh@opensar.net',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "led_control = led_control_pkg.led_control:main"
+            "robot_peripherals = robot_peripherals_pkg.robot_peripherals:main"
         ],
     },
 )

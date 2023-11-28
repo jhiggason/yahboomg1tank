@@ -14,7 +14,7 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='jeffh',
-    maintainer_email='jhiggy@gmail.com',
+    maintainer_email='jeffh@opensar.net',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],

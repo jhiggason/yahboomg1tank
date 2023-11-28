@@ -4,16 +4,16 @@ from sensor_msgs.msg import Joy
 import RPi.GPIO as GPIO
 import yaml  # Import the yaml module
 
-class LedControlNode(Node):
+class RobotPeripheralsNode(Node):
     """
-    A ROS2 node for controlling an LED and servo motor based on joystick input.
+    A ROS2 node for controlling robot peripherals 
     """
     def __init__(self):
         """
-        Initialize the LedControlNode class.
+        Initialize the RobotPeripheralsNode class.
         """
         # Initialize the parent class (Node)
-        super().__init__('led_control')
+        super().__init__('robot_peripherals')
 
         # Load the YAML configuration file
         self.config = self.load_yaml_config("/home/jeffh/ros2_ws/src/params_pkg/params/robot_params.yaml")
@@ -126,14 +126,14 @@ def main(args=None):
     Main function to initialize the node and start the ROS2 loop.
     """
     rclpy.init(args=args)  # Initialize ROS2
-    led_control_node = LedControlNode()  # Create an instance of the LedControlNode class
+    robot_peripherals_node = RobotPeripheralsNode()  # Create an instance of the RobotPeripheralsNode class
 
     try:
-        rclpy.spin(led_control_node)  # Enter the ROS2 loop
+        rclpy.spin(robot_peripherals_node)  # Enter the ROS2 loop
     except KeyboardInterrupt:
         pass  # Handle Ctrl+C gracefully
     finally:
-        led_control_node.destroy_node()  # Clean up the node
+        robot_peripherals_node.destroy_node()  # Clean up the node
         rclpy.shutdown()  # Shutdown ROS2
 
 if __name__ == '__main__':
