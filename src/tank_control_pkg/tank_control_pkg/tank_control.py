@@ -38,7 +38,7 @@ class TankControl(Node):
         corrected_linear_x = self.linear_x * self.linear_speed_adjusted
 
         # Calculate left and right wheel speeds based on linear and angular velocities
-        angular_speed_amplified = self.angular_z * 1.5  # Enhance the effect of angular velocity
+        angular_speed_amplified = self.angular_z * self.angular_amp # Enhance the effect of angular velocity
         if corrected_linear_x >= 0:  # Condition for moving forwards or staying stationary
             left_speed = corrected_linear_x - angular_speed_amplified
             right_speed = corrected_linear_x + angular_speed_amplified
@@ -105,6 +105,8 @@ class TankControl(Node):
         self.linear_speed_adjusted = self.config['robot_parameters']['track_correction_factor']['linear_speed_adjusted']
         self.expo_linear = self.config['robot_parameters']['expo_linear']
         self.expo_angular = self.config['robot_parameters']['expo_angular']
+        self.angular_amp = self.config['robot_parameters']['angular_speed_amplification_factor']
+
         
         # Set up GPIO
         try:
