@@ -24,8 +24,8 @@ class TankControl(Node):
         """
 
         # Apply an exponential curve to both linear and angular velocities
-        self.linear_x = self.apply_exponential_curve(msg.linear.x, exponent=2)
-        self.angular_z = self.apply_exponential_curve(msg.angular.z, exponent=2)
+        self.linear_x = self.apply_exponential_curve(msg.linear.x, exponent=self.expo_linear)
+        self.angular_z = self.apply_exponential_curve(msg.angular.z, exponent=self.expo_angular)
 
         # Limit the linear speed to the maximum speed of the robot
         msg.linear.x = min(msg.linear.x, self.max_linear_speed)  # Ensuring robot doesn't exceed max speed
@@ -103,7 +103,9 @@ class TankControl(Node):
         self.right_track_correction = self.config['robot_parameters']['track_correction_factor']['right_track']
         self.max_linear_speed = self.config['robot_parameters']['max_linear_speed']
         self.linear_speed_adjusted = self.config['robot_parameters']['track_correction_factor']['linear_speed_adjusted']
-
+        self.expo_linear = self.config['robot_parameters']['expo_linear']
+        self.expo_angular = self.config['robot_parameters']['expo_angular']
+        
         # Set up GPIO
         try:
             GPIO.setmode(GPIO.BCM)
