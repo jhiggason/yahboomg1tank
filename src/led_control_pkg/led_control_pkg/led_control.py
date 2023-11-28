@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 import RPi.GPIO as GPIO
+import yaml  # Import the yaml module
 
 class LedControlNode(Node):
     """
@@ -14,6 +15,9 @@ class LedControlNode(Node):
         # Initialize the parent class (Node)
         super().__init__('led_control')
 
+        # Load the YAML configuration file
+        self.config = self.load_yaml_config("/home/jeffh/ros2_ws/src/params_pkg/params/robot_params.yaml")
+
         # Subscribe to the /joy topic to receive joystick messages
         self.subscription = self.create_subscription(
             Joy,
@@ -25,11 +29,11 @@ class LedControlNode(Node):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
 
-        # Define pin numbers for the servo motor and LED
-        self.ServoPin = 23
-        self.LED_R = 22
-        self.LED_G = 27
-        self.LED_B = 24
+        # Use the configuration from the YAML file
+        self.ServoPin = self.config['gpio_pins']['servos']['servo1']['pin']
+        self.LED_R = self.config['gpio_pins']['searchlight']['red']
+        self.LED_G = self.config['gpio_pins']['searchlight']['green']
+        self.LED_B = self.config['gpio_pins']['searchlight']['blue']
 
         # Setup pins as output
         GPIO.setup(self.ServoPin, GPIO.OUT)
@@ -53,6 +57,10 @@ class LedControlNode(Node):
 
         # Dead zone setup
         self.dead_zone = 0.05
+
+    def load_yaml_config(self, file_path):
+        with open(file_path, 'r') as file:
+            return yaml.safe_load(file)
 
 
     def destroy_node(self):

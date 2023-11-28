@@ -1,4 +1,5 @@
 # Import necessary libraries
+import yaml # Used with yaml config file @ /src/params_pkg/params/robot_params.yaml # pip install pyYAML 
 import rclpy  # ROS 2 Python client library
 from rclpy.node import Node  # Node class for creating ROS 2 nodes
 from geometry_msgs.msg import Twist  # Message type for sending velocity commands
@@ -23,22 +24,21 @@ class TankControl(Node):
         """
 
         # Apply an exponential curve to both linear and angular velocities
-        self.linear_x = self.apply_exponential_curve(msg.linear.x, exponent=2)
-        self.angular_z = self.apply_exponential_curve(msg.angular.z, exponent=2)
+        self.linear_x = self.apply_exponential_curve(msg.linear.x, exponent=self.expo_linear)
+        self.angular_z = self.apply_exponential_curve(msg.angular.z, exponent=self.expo_angular)
 
         # Limit the linear speed to the maximum speed of the robot
-        msg.linear.x = min(msg.linear.x, 1.27)  # Ensuring robot doesn't exceed max speed
+        msg.linear.x = min(msg.linear.x, self.max_linear_speed)  # Ensuring robot doesn't exceed max speed
 
         # Extract linear and angular velocities from the message
         self.linear_x = msg.linear.x
         self.angular_z = msg.angular.z
 
         # Apply a correction factor to linear velocity for real-world adjustments
-        correction_factor = 0.79  # Adjust this value based on empirical testing
-        corrected_linear_x = self.linear_x * correction_factor
+        corrected_linear_x = self.linear_x * self.linear_speed_adjusted
 
         # Calculate left and right wheel speeds based on linear and angular velocities
-        angular_speed_amplified = self.angular_z * 1.5  # Enhance the effect of angular velocity
+        angular_speed_amplified = self.angular_z * self.angular_amp # Enhance the effect of angular velocity
         if corrected_linear_x >= 0:  # Condition for moving forwards or staying stationary
             left_speed = corrected_linear_x - angular_speed_amplified
             right_speed = corrected_linear_x + angular_speed_amplified
@@ -83,32 +83,52 @@ class TankControl(Node):
         """
         super().__init__('tank_control')  # Initialize the ROS2 node with the name 'tank_control'
 
-        # Define the GPIO pins for the left and right motors
-        self.left_motor_pins = [20, 21, 16]  # GPIO pins for Forward, Reverse, PWM of left motor
-        self.right_motor_pins = [19, 26, 13]  # GPIO pins for Forward, Reverse, PWM of right motor
-        # Correction factors for each track (adjust these based on testing)
-        self.left_track_correction = 1.0  # Start with 1.0 and adjust as necessary
-        self.right_track_correction = 1.0  # Start with 1.0 and adjust as necessary
+        # Try loading the YAML configuration file
         try:
-            # Set the GPIO mode to BCM (Broadcom SOC channel)
+            self.config = self.load_yaml_config("/home/jeffh/ros2_ws/src/params_pkg/params/robot_params.yaml")
+            self.get_logger().info("Successfully loaded configuration file.")
+        except Exception as e:
+            # Log the error and raise an exception to halt the initialization
+            self.get_logger().error(f'Critical error: Failed to load configuration file: {e}')
+            raise Exception(f'Failed to load configuration: {e}')
+
+        # Define the GPIO pins for the left and right motors
+        # Using GPIO pin values from the YAML file
+        self.left_motor_pins = [
+            self.config['gpio_pins']['left_motor']['forward'],
+            self.config['gpio_pins']['left_motor']['back'],
+            self.config['gpio_pins']['left_motor']['pwm']
+        ]
+        self.right_motor_pins = [
+            self.config['gpio_pins']['right_motor']['forward'],
+            self.config['gpio_pins']['right_motor']['back'],
+            self.config['gpio_pins']['right_motor']['pwm']
+        ]
+
+        # Initialize correction factors from the YAML configuration
+        self.left_track_correction = self.config['robot_parameters']['track_correction_factor']['left_track']
+        self.right_track_correction = self.config['robot_parameters']['track_correction_factor']['right_track']
+        self.max_linear_speed = self.config['robot_parameters']['max_linear_speed']
+        self.linear_speed_adjusted = self.config['robot_parameters']['track_correction_factor']['linear_speed_adjusted']
+        self.expo_linear = self.config['robot_parameters']['expo_linear']
+        self.expo_angular = self.config['robot_parameters']['expo_angular']
+        self.angular_amp = self.config['robot_parameters']['angular_speed_amplification_factor']
+        
+        # Set up GPIO with error handling
+        try:
             GPIO.setmode(GPIO.BCM)
-            
-            # Set up individual pins as output
             for pin in self.left_motor_pins + self.right_motor_pins:
-                GPIO.setup(pin, GPIO.OUT)  # Configure each pin as an output
-
-            # Set up the PWM for the left and right motors
-            self.left_pwm = GPIO.PWM(self.left_motor_pins[2], 2000)  # PWM for left motor with 2000Hz frequency
-            self.right_pwm = GPIO.PWM(self.right_motor_pins[2], 2000)  # PWM for right motor with 2000Hz frequency
-
-            # Start the PWM with 0% duty cycle (motor off)
+                GPIO.setup(pin, GPIO.OUT)
+                
+            self.left_pwm = GPIO.PWM(self.left_motor_pins[2], self.config['robot_parameters']['pwm']['frequency_motors'])
+            self.right_pwm = GPIO.PWM(self.right_motor_pins[2], self.config['robot_parameters']['pwm']['frequency_motors'])
             self.left_pwm.start(0)
             self.right_pwm.start(0)
-
+            self.get_logger().info("GPIO and PWM successfully initialized.")
         except Exception as e:
-            # Handle any errors during GPIO setup
-            self.get_logger().error('Error setting up GPIO pins: %s' % str(e))
-            raise
+            # Log the error and raise an exception to halt the initialization
+            self.get_logger().error(f'Critical error: Failed to setup GPIO pins: {e}')
+            raise Exception(f'Failed to load configuration: {e}')
 
         # Subscribe to the /cmd_vel topic with the message type Twist
         # This subscription will receive velocity commands for the robot
@@ -126,6 +146,11 @@ class TankControl(Node):
         # Initialize the time of the last message received
         self.last_msg_time = time()
 
+
+    def load_yaml_config(self, file_path):
+        with open(file_path, 'r') as file:
+            return yaml.safe_load(file)
+        
     def map_range(self, value, in_min, in_max, out_min, out_max):
         """
         Map a value from one range to another.
