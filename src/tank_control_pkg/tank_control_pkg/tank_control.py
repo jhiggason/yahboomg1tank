@@ -35,7 +35,7 @@ class TankControl(Node):
         self.angular_z = msg.angular.z
 
         # Apply a correction factor to linear velocity for real-world adjustments
-        corrected_linear_x = self.linear_x * self.linear_speed_correction
+        corrected_linear_x = self.linear_x * self.linear_speed_adjusted
 
         # Calculate left and right wheel speeds based on linear and angular velocities
         angular_speed_amplified = self.angular_z * 1.5  # Enhance the effect of angular velocity
@@ -102,7 +102,7 @@ class TankControl(Node):
         self.left_track_correction = self.config['robot_parameters']['track_correction_factor']['left_track']
         self.right_track_correction = self.config['robot_parameters']['track_correction_factor']['right_track']
         self.max_linear_speed = self.config['robot_parameters']['max_linear_speed']
-        self.linear_speed_correction = self.config['robot_parameters']['track_correction_factor']['linear_speed_adjusted']
+        self.linear_speed_adjusted = self.config['robot_parameters']['track_correction_factor']['linear_speed_adjusted']
 
         # Set up GPIO
         try:
