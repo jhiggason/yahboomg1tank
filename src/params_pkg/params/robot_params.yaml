@@ -1,0 +1,112 @@
+---
+gpio_pins:
+  left_motor:
+    forward: 20
+    back: 21
+    pwm: 16
+    mode: output
+    initial_state: LOW
+  right_motor:
+    forward: 19
+    back: 26
+    pwm: 13
+    mode: output
+    initial_state: LOW
+  tracking_left_1:
+    pin: 3
+    mode: input
+  tracking_left_2:
+    pin: 5
+    mode: input
+  tracking_right_1:
+    pin: 4
+    mode: input
+  tracking_right_2:
+    pin: 18
+    mode: input
+  ir_avoid_left:
+    pin: 12
+    mode: input
+  ir_avoid_right:
+    pin: 17
+    mode: input
+  seek_light_left:
+    pin: 7
+    mode: input
+  seek_light_right:
+    pin: 10
+    mode: input
+  button:
+    pin: 8
+    mode: input
+  buzzer:
+    pin: 8
+    mode: output
+    initial_state: LOW
+  fan:
+    pin: 2
+    mode: output
+    initial_state: LOW
+  searchlight:
+    red: 22
+    green: 27
+    blue: 24
+    mode: output
+    initial_state: LOW
+  ultrasonic:
+    transmit: 0
+    receive: 1
+    mode: output
+    initial_state: LOW
+  ir_remote:
+    pin: 2
+    mode: input
+  ps2_controller:
+    mosi: 10
+    miso: 9
+    cs: 25
+    sck: 11
+    mode: input
+  servos:
+    servo1:
+      pin: 23
+      mode: output
+      initial_servo_angle: 90 #Where do you want the servo to intially be set at?  This value is from 0-180degrees
+    servo2:
+      pin: 11
+      mode: output
+      initial_servo_angle: 90
+    servo3:
+      pin: 9
+      mode: output
+      initial_servo_angle: 90
+    servo4:
+      pin: 10
+      mode: output
+      initial_servo_angle: 90
+    servo5:
+      pin: 25
+      mode: output
+      initial_servo_angle: 90
+    servo6:
+      pin: 2
+      mode: output
+      initial_servo_angle: 90
+robot_parameters:
+  inactivity_timeout: 0.1 # Time in seconds after which motors stop if no command is received
+  angular_speed_amplification_factor: 1.5 # Factor to amplify angular speed- Adjust this if the tank isn't turning like you'd expect
+  max_linear_speed: 1.27  # Maximum linear speed in m/s - How fast our tank can actually move- I ran the linear test at full speed for 1 second to see how far the tank traveled.  This probably should be adjusted based on 10 meters or 20 meters vs 1. But it's a start. 
+  track_correction_factor:
+    linear_speed: 0.79 
+    # To calculate a new linear speed correction factor:
+    # New Correction Factor = Current Correction Factor * (Commanded Distance / Actual Distance Travelled)
+    # For example, if the tank is initially set with a correction factor of 0.79,
+    # and it moves 1.1 meters when commanded to move 1 meter, the new correction factor is calculated as:
+    # new_linear_speed = 0.79 * (1 / 1.1) = .72
+    # divide first and then multiply
+    left_track: 1 #Adjust this to < 1 if the tank is turning right while attempting to go in a straight line Try .95 then .90 ect. 
+    right_track: 1 #Adjust this to < 1 if the tank is turning left while attempting to go in a straight line.  
+  logging_level: info # Logging level: info, debug, error, etc.
+  pwm:
+    frequency_motors: 2000 # Default PWM frequency in Hz -- Motor Drive Chip = TB6612FNG
+    frequency_servos: 50 #Default PWM frequency in Hz for everything except motors --This gives a useable range of 500us to 2500us
