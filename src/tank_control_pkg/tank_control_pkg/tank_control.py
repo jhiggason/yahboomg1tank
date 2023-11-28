@@ -83,10 +83,12 @@ class TankControl(Node):
         """
         super().__init__('tank_control')  # Initialize the ROS2 node with the name 'tank_control'
 
+        # Try loading the YAML configuration file
         try:
             self.config = self.load_yaml_config("/home/jeffh/ros2_ws/src/params_pkg/params/robot_params.yaml")
             self.get_logger().info("Successfully loaded configuration file.")
         except Exception as e:
+            # Log the error and raise an exception to halt the initialization
             self.get_logger().error(f'Critical error: Failed to load configuration file: {e}')
             raise Exception(f'Failed to load configuration: {e}')
 
@@ -113,7 +115,7 @@ class TankControl(Node):
         self.angular_amp = self.config['robot_parameters']['angular_speed_amplification_factor']
 
         
-        # Set up GPIO
+        # Set up GPIO with error handling
         try:
             GPIO.setmode(GPIO.BCM)
             for pin in self.left_motor_pins + self.right_motor_pins:
@@ -123,9 +125,11 @@ class TankControl(Node):
             self.right_pwm = GPIO.PWM(self.right_motor_pins[2], self.config['robot_parameters']['pwm']['frequency_motors'])
             self.left_pwm.start(0)
             self.right_pwm.start(0)
+            self.get_logger().info("GPIO and PWM successfully initialized.")
         except Exception as e:
-            self.get_logger().error('Error setting up GPIO pins: %s' % str(e))
-            raise
+            # Log the error and raise an exception to halt the initialization
+            self.get_logger().error(f'Critical error: Failed to setup GPIO pins: {e}')
+            raise Exception(f'Failed to load configuration: {e}')
 
         # Subscribe to the /cmd_vel topic with the message type Twist
         # This subscription will receive velocity commands for the robot
