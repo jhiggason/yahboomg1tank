@@ -22,6 +22,11 @@ class TankControl(Node):
         Parameters:
         - msg (Twist): The incoming ROS2 message containing the tank's desired motion parameters.
         """
+
+        # Apply an exponential curve to both linear and angular velocities
+        self.linear_x = self.apply_exponential_curve(msg.linear.x, exponent=2)
+        self.angular_z = self.apply_exponential_curve(msg.angular.z, exponent=2)
+
         # Limit the linear speed to the maximum speed of the robot
         msg.linear.x = min(msg.linear.x, 1.27)  # Ensuring robot doesn't exceed max speed
 
@@ -124,6 +129,7 @@ class TankControl(Node):
         # Initialize the time of the last message received
         self.last_msg_time = time()
 
+
     def load_yaml_config(self, file_path):
         with open(file_path, 'r') as file:
             return yaml.safe_load(file)
@@ -163,24 +169,30 @@ class TankControl(Node):
 
     def drive(self, pins, fwd, rev, speed):
         """
-        Set motor direction and speed.
+        Set motor direction and speed with correction factors applied.
 
         Parameters:
         - pins: The GPIO pins associated with the motor.
         - fwd: Boolean indicating whether to drive forward.
         - rev: Boolean indicating whether to drive reverse.
         - speed: The speed to drive the motor (0 to 100).
-        
-        This function controls the direction and speed of a motor using GPIO signals.
         """
         # Ensure speed is within 0-100 range
         speed = max(min(speed, 100), 0)
-        
-        # Set GPIO outputs for motor direction
-        GPIO.output(pins[0], fwd)  # Forward control
-        GPIO.output(pins[1], rev)  # Reverse control
 
-        # Change duty cycle of PWM to control motor speed
+        # Apply correction factor based on the motor being controlled
+        if pins == self.left_motor_pins:
+            speed *= self.left_track_correction
+        elif pins == self.right_motor_pins:
+            speed *= self.right_track_correction
+
+        # Clamp the speed to the range 0-100 after applying the correction
+        speed = max(min(speed, 100), 0)
+
+        GPIO.output(pins[0], fwd)
+        GPIO.output(pins[1], rev)
+        
+        # Set PWM duty cycle based on corrected speed
         if pins == self.left_motor_pins:
             self.left_pwm.ChangeDutyCycle(speed)
         elif pins == self.right_motor_pins:
@@ -189,6 +201,8 @@ class TankControl(Node):
         # Log the motor direction and speed
         self.get_logger().info(f'Motor direction: {"forward" if fwd else "backward"}')
         self.get_logger().info(f'Motor speed set to: {speed}')
+
+
 
     def stop_motors(self, pins):
         """
@@ -216,6 +230,21 @@ class TankControl(Node):
         """
         self.get_logger().info('Cleaning up GPIO pins.')
         GPIO.cleanup()  # Release all GPIO resources
+
+    @staticmethod
+    def apply_exponential_curve(value, exponent):
+        """
+        Apply an exponential curve to the input value.
+
+        Parameters:
+        - value: The input value to be modified.
+        - exponent: The exponent to apply to the curve.
+
+        Returns:
+        - The value after applying the exponential curve.
+        """
+        sign = 1 if value >= 0 else -1  # Preserve the sign of the original value
+        return sign * (abs(value) ** exponent)
 
 def main(args=None):
     """
