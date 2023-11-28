@@ -120,7 +120,7 @@ class TankControl(Node):
             GPIO.setmode(GPIO.BCM)
             for pin in self.left_motor_pins + self.right_motor_pins:
                 GPIO.setup(pin, GPIO.OUT)
-
+                
             self.left_pwm = GPIO.PWM(self.left_motor_pins[2], self.config['robot_parameters']['pwm']['frequency_motors'])
             self.right_pwm = GPIO.PWM(self.right_motor_pins[2], self.config['robot_parameters']['pwm']['frequency_motors'])
             self.left_pwm.start(0)
