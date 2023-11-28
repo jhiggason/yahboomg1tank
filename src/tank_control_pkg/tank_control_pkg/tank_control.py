@@ -28,15 +28,14 @@ class TankControl(Node):
         self.angular_z = self.apply_exponential_curve(msg.angular.z, exponent=2)
 
         # Limit the linear speed to the maximum speed of the robot
-        msg.linear.x = min(msg.linear.x, 1.27)  # Ensuring robot doesn't exceed max speed
+        msg.linear.x = min(msg.linear.x, self.max_linear_speed)  # Ensuring robot doesn't exceed max speed
 
         # Extract linear and angular velocities from the message
         self.linear_x = msg.linear.x
         self.angular_z = msg.angular.z
 
         # Apply a correction factor to linear velocity for real-world adjustments
-        correction_factor = 0.79  # Adjust this value based on empirical testing
-        corrected_linear_x = self.linear_x * correction_factor
+        corrected_linear_x = self.linear_x * self.linear_speed_correction
 
         # Calculate left and right wheel speeds based on linear and angular velocities
         angular_speed_amplified = self.angular_z * 1.5  # Enhance the effect of angular velocity
@@ -102,7 +101,8 @@ class TankControl(Node):
         # Initialize correction factors from the YAML configuration
         self.left_track_correction = self.config['robot_parameters']['track_correction_factor']['left_track']
         self.right_track_correction = self.config['robot_parameters']['track_correction_factor']['right_track']
-
+        self.max_linear_speed = self.config['robot_parameters']['max_linear_speed']
+        self.linear_speed_correction = self.config['robot_parameters']['track_correction_factor']['linear_speed_adjusted']
 
         # Set up GPIO
         try:
