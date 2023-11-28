@@ -284,7 +284,8 @@ Now you should be able to control your tank with the xbox controller after press
 - [X] Improve movement commands to allow for better control of tank
 - [X] Use xbox controller to move the tank
 - [X] Enable "search" LEDs and servo http://www.yahboom.net/study/G1-T-PI
-- [ ] Change to a YAML style config
+- [X] Change to a YAML style config
+- [ ] Create proper guide on how to set it up, devolop it, and maintain it
 - [ ] Enable camera for remote viewing
 - [ ] Enable ultra-sonic sensor and servo
 - [ ] Enable basic obstacle avoidance using ultra-sonic sensor
