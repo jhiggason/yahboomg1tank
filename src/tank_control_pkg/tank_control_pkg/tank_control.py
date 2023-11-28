@@ -99,6 +99,11 @@ class TankControl(Node):
             self.config['gpio_pins']['right_motor']['pwm']
         ]
 
+        # Initialize correction factors from the YAML configuration
+        self.left_track_correction = self.config['robot_parameters']['track_correction_factor']['left_track']
+        self.right_track_correction = self.config['robot_parameters']['track_correction_factor']['right_track']
+
+
         # Set up GPIO
         try:
             GPIO.setmode(GPIO.BCM)
