@@ -113,7 +113,6 @@ class TankControl(Node):
         self.expo_linear = self.config['robot_parameters']['expo_linear']
         self.expo_angular = self.config['robot_parameters']['expo_angular']
         self.angular_amp = self.config['robot_parameters']['angular_speed_amplification_factor']
-
         
         # Set up GPIO with error handling
         try:
