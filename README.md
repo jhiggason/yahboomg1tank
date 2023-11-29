@@ -54,8 +54,9 @@ For more information on how to get started with this project, please refer to th
 ![Project Image](https://hackster.imgix.net/uploads/attachments/1418126/_y4NHHNkT2t.blob?auto=compress%2Cformat&w=900&h=675&fit=min)
 
 ### Built With
-- [Python3][Python-url]
-- [ROS2 Humble][ROS-url]
+* [![ROS2 Humble][ROS.org]][ROS-url]
+* [![Python3][Python.org]][Python-url]
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
