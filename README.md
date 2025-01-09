@@ -1,4 +1,4 @@
-# YAHBOOM G1 Tank ROS2
+# YAHBOOM G1 Tank ROS 2
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -14,21 +14,21 @@
 </div>
 
 <div align="left">
-    
-## Overview
-The YAHBOOM G1 Tank ROS2 project is a Python-based node designed for the YAHBOOM G1 Tank, built on the Raspberry Pi 4. This project provides a flexible and customizable platform for controlling the YAHBOOM G1 Tank, with support for the Yahboom 4WD expansion board for robot car, SKU: 6000300085, and related vehicles.
 
-The project is built on top of the Robot Operating System 2 (ROS2), which provides a powerful and flexible framework for developing robotic applications. The YAHBOOM G1 Tank ROS2 project uses either the turtlesim teleop executable for basic control or a gamepad, such as an Xbox controller, for control.
+## Overview
+The YAHBOOM G1 Tank ROS 2 project is a Python-based node designed for the YAHBOOM G1 Tank, built on the Raspberry Pi 4. This project provides a flexible and customizable platform for controlling the YAHBOOM G1 Tank, with support for the Yahboom 4WD expansion board for robot car, SKU: 6000300085, and related vehicles.
+
+The project is built on top of the Robot Operating System 2 (ROS 2), which provides a powerful and flexible framework for developing robotic applications. The YAHBOOM G1 Tank ROS 2 project uses either the turtlesim teleop executable for basic control or a gamepad, such as an Xbox controller, for control.
 
 For more information on how to get started with this project, please refer to the documentation. If you encounter any issues or have any questions, feel free to open a new issue on the project's GitHub page.
 
 
 **Key Features:**
 - Controlled via `turtlesim` teleop executable.
-- Controlled via 'ros-humble-teleop-twist-joy` that uses the ros2 package joy to provide gamepad support- like an xbox controller. 
+- Controlled via 'ros-humble-teleop-twist-joy` that uses the ros2 package joy to provide gamepad support- like an xbox controller.
 - Support for the "Yahboom 4WD expansion board for robot car, SKU: 6000300085" and related vehicles.
-  
-<a href="https://github.com/jhiggason/YahBoomG1Tank#getting-started"><strong>Explore the Documentation »</strong></a>  
+
+<a href="https://github.com/jhiggason/YahBoomG1Tank#getting-started"><strong>Explore the Documentation »</strong></a>
 <a href="https://github.com/jhiggason/YahBoomG1Tank">View Demo</a> |
 <a href="https://github.com/jhiggason/YahBoomG1Tank/issues">Report Bug</a> |
 <a href="https://github.com/jhiggason/YahBoomG1Tank/issues">Request Feature</a>
@@ -54,18 +54,18 @@ For more information on how to get started with this project, please refer to th
 ![Project Image](https://hackster.imgix.net/uploads/attachments/1418126/_y4NHHNkT2t.blob?auto=compress%2Cformat&w=900&h=675&fit=min)
 
 ### Built With
-* [![ROS2 Humble][ROS.org]][ROS-url]
+* [![ROS 2 Humble][ROS.org]][ROS-url]
 * [![Python3][Python.org]][Python-url]
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 Tank with Raspberry Pi 4.
+This guide will help you set up and run the ROS 2 Python node for the YAHBOOM G1 Tank with Raspberry Pi 4.
 
 - [LED Control Package](https://github.com/jhiggason/yahboomg1tank/tree/main/src/led_control_pkg)
 - [Tank Control Package](https://github.com/jhiggason/yahboomg1tank/tree/main/src/tank_control_pkg)
-  
+
 ### Prerequisites
 
 #### Hardware:
@@ -74,13 +74,13 @@ This guide will help you set up and run the ROS2 Python node for the YAHBOOM G1 
 
 #### Software:
 - **Ubuntu 22 for Raspberry Pi**: Installed and set up on your Raspberry Pi 4. [Ubuntu installation guide](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview).
-- **ROS2 Humble-desktop**: Installed and sourced following the official [ROS2 installation guide](https://index.ros.org/doc/ros2/Installation/Humble/).
+- **ROS 2 Humble-desktop**: Installed and sourced following the official [ROS 2 installation guide](https://docs.ros.org/en/humble/Installation.html).
 - **Colcon**: Required for building and testing ROS packages. Install with:
   ```bash
   sudo apt install python3-colcon-common-extensions
   ```
 For more information on installing Colcon, please refer to the official [Colcon installation guide](https://colcon.readthedocs.io/en/released/user/installation.html).
-  
+
 - **RPI-GPIO**: Library to control Raspberry Pi GPIO channels. Install using:
   ```bash
   sudo apt install python3-rpi.gpio
@@ -105,7 +105,7 @@ For more information on installing Colcon, please refer to the official [Colcon 
    git clone https://github.com/jhiggason/yahboomg1tank.git .
    ```
 
-3. **Build the ROS2 Package**:
+3. **Build the ROS 2 Package**:
    Compile the project using `colcon`:
    ```bash
    colcon build
@@ -118,7 +118,7 @@ For more information on installing Colcon, please refer to the official [Colcon 
    ```
 
 5. **Running the Node**:
-   To activate and run your ROS2 node, execute:
+   To activate and run your ROS 2 node, execute:
    ```bash
    ros2 run tank_control_pkg tank_control
    ```
@@ -133,7 +133,7 @@ Upon successfully setting up and running the node, the YAHBOOM G1 Tank should no
    ros2 run turtlesim turtle_teleop_key --ros-args --remap /turtle1/cmd_vel:=/cmd_vel
    ```
 
-Use your arrow keys on your keyboard to move the tank around.  
+Use your arrow keys on your keyboard to move the tank around.
 
 ---
 
@@ -144,11 +144,11 @@ For any issues or to contribute, engage with this GitHub repository.
 <!--  How It Works -->
 ## How It Works:
 
-The `TankControl` class, found in [tank_control.py](https://github.com/jhiggason/yahboomg1tank/blob/main/src/tank_control_pkg/tank_control_pkg/tank_control.py), is designed to control a tank-like robot using ROS2 and Raspberry Pi GPIO pins. It subscribes to ROS2 topics to receive motion commands and controls the robot's movement accordingly.
+The `TankControl` class, found in [tank_control.py](https://github.com/jhiggason/yahboomg1tank/blob/main/src/tank_control_pkg/tank_control_pkg/tank_control.py), is designed to control a tank-like robot using ROS 2 and Raspberry Pi GPIO pins. It subscribes to ROS 2 topics to receive motion commands and controls the robot's movement accordingly.
 
 1. **Initialization**: The class initializes upon instantiation, setting up GPIO pins for the left and right motors and configuring PWM (Pulse Width Modulation) for speed control.
 
-2. **ROS2 Subscriptions**: It subscribes to the `/cmd_vel` topic to receive `Twist` messages, containing linear and angular velocities for the tank's movement.
+2. **ROS 2 Subscriptions**: It subscribes to the `/cmd_vel` topic to receive `Twist` messages, containing linear and angular velocities for the tank's movement.
 
 3. **Motor Speed and Direction Control**: The class processes incoming `Twist` messages to calculate the speeds for the left and right wheels. It applies a correction factor to the linear velocity and amplifies the angular velocity. The speeds are normalized and used to control the motor direction and speed through GPIO pins.
 
@@ -157,7 +157,7 @@ The `TankControl` class, found in [tank_control.py](https://github.com/jhiggason
 ## Important Parameters:
 
 - **GPIO Pins Configuration**: `self.left_motor_pins` and `self.right_motor_pins` define the GPIO pins for the motors.
-  
+
 - **Message Processing**: The `subscription_callback` method processes `Twist` messages, applying a correction factor and amplifying the angular velocity to determine motor speeds.
 
 - **Inactivity Timer**: The `timer_callback` method checks for command inactivity, stopping the motors if no command is received within 0.1 seconds.
@@ -165,11 +165,11 @@ The `TankControl` class, found in [tank_control.py](https://github.com/jhiggason
 ## Customization:
 
 - **Motor Pins**: Modify `self.left_motor_pins` and `self.right_motor_pins` to match your GPIO configuration.
-  
+
 - **Subscription Topic**: Change the topic name in `create_subscription` if needed.
-  
+
 - **Control Logic**: Adjust the `subscription_callback` method for different tank motion logic.
-  
+
 - **Inactivity Duration**: Alter the inactivity duration in `timer_callback` for different safety requirements.
 
 Careful consideration should be given when modifying GPIO configurations to prevent damage to the Raspberry Pi or connected components.
@@ -180,14 +180,14 @@ _For more examples, please refer to the [Documentation](https://github.com/jhigg
 
 <!-- Gamepad -->
 ## Gamepad
-In this example we are going to use an Xbox Series X/S controller, connected to bluetooth on the raspberry pi, to send twist MSGs to the /cmd_vel topic.  This will control our tank. 
+In this example we are going to use an Xbox Series X/S controller, connected to bluetooth on the raspberry pi, to send twist MSGs to the /cmd_vel topic.  This will control our tank.
 
 ---
 
 **Setting Up Xbox Controller on Ubuntu 22 for ROS 2*
 
 1. **Disable Secure Boot**:
-    If you are doing this on a system other than raspberry pi-please disable secure boot. 
+    If you are doing this on a system other than raspberry pi-please disable secure boot.
     - Enter your PC's BIOS/UEFI firmware settings during boot, typically by pressing `Del`, `F2`, `F12`, or `Esc`.
     - Navigate to 'Boot' or 'Security'.
     - Find 'Secure Boot' and set it to 'Disabled'.
@@ -269,10 +269,10 @@ In this example we are going to use an Xbox Series X/S controller, connected to 
     ros2 launch teleop_twist_joy teleop-launch.py joy_config:='xbox'
     ```
 
-Now you should be able to control your tank with the xbox controller after pressing the "A" button on the controller and moving the left stick. 
+Now you should be able to control your tank with the xbox controller after pressing the "A" button on the controller and moving the left stick.
 
 
-    
+
 
 ---
 
@@ -281,7 +281,7 @@ Now you should be able to control your tank with the xbox controller after press
 <!-- ROADMAP -->
 ## Roadmap
 
-- [X] Working ROS2 that talks on the correct raspberry pi pins
+- [X] Working ROS 2 that talks on the correct raspberry pi pins
 - [X] Improve movement commands to allow for better control of tank
 - [X] Use xbox controller to move the tank
 - [X] Enable "search" LEDs and servo http://www.yahboom.net/study/G1-T-PI
